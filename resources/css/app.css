@@ -6,4 +6,53 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* NEXORA design system */
+    --color-navy: #171a2b;
+    --color-charcoal: #252633;
+    --color-accent: #f59e0b;
+    --color-accent-soft: #fff4df;
+    --color-surface: #f6f7f9;
+    --color-muted: #6b7280;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-white text-charcoal antialiased;
+        overflow-x: hidden;
+    }
+}
+
+@layer components {
+    .container-nexora {
+        @apply mx-auto w-full max-w-7xl px-6 lg:px-8;
+    }
+
+    .btn-primary {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg bg-navy px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-accent hover:text-navy;
+    }
+
+    .btn-secondary {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg border border-navy/15 bg-white px-6 py-3 text-sm font-semibold text-navy transition-colors duration-200 hover:border-accent hover:text-accent;
+    }
+
+    .btn-accent {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-navy transition-colors duration-200 hover:bg-navy hover:text-white;
+    }
+
+    .eyebrow {
+        @apply text-xs font-semibold uppercase tracking-[0.18em] text-accent;
+    }
+
+    .section-py {
+        @apply py-16 lg:py-24;
+    }
+
+    .card-outline {
+        @apply rounded-xl border border-navy/10 bg-white transition-shadow duration-200 hover:shadow-md;
+    }
 }
