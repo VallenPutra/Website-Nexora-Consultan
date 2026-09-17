@@ -4,7 +4,7 @@
 >
     {{-- HERO --}}
     <section class="relative overflow-hidden bg-white">
-        <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-accent-soft/60 via-white to-white"></div>
+        <div class="pointer-events-none absolute inset-0 bg-linear-to-br from-accent-soft/60 via-white to-white"></div>
         <div class="container-nexora relative grid items-center gap-12 py-16 lg:grid-cols-2 lg:py-24">
             <div>
                 <p class="eyebrow">Nexora IT Consulting</p>
@@ -21,7 +21,7 @@
             </div>
 
             <div class="relative">
-                <div class="aspect-[4/3] w-full rounded-2xl border border-navy/10 bg-navy p-8 shadow-xl">
+                <div class="aspect-4/3 w-full rounded-2xl border border-navy/10 bg-navy p-8 shadow-xl">
                     <div class="grid h-full grid-cols-2 gap-4">
                         <div class="col-span-2 rounded-xl bg-white/5 p-5">
                             <div class="h-2 w-16 rounded-full bg-accent"></div>
@@ -86,7 +86,7 @@
     {{-- FEATURED SOLUTION --}}
     <section class="section-py bg-surface">
         <div class="container-nexora grid items-center gap-12 lg:grid-cols-2">
-            <div class="order-2 aspect-[4/3] rounded-2xl border border-navy/10 bg-white p-6 shadow-sm lg:order-1">
+            <div class="order-2 aspect-4/3 rounded-2xl border border-navy/10 bg-white p-6 shadow-sm lg:order-1">
                 <div class="flex h-full flex-col justify-between">
                     <div class="grid grid-cols-3 gap-3">
                         @for ($i = 0; $i < 6; $i++)
@@ -165,7 +165,7 @@
             <div class="mt-10 grid gap-6 lg:grid-cols-3">
                 @foreach ($insights as $slug => $article)
                     <a href="{{ route('insights.show', $slug) }}" class="card-outline flex flex-col overflow-hidden">
-                        <div class="aspect-[16/9] bg-gradient-to-br from-navy to-charcoal"></div>
+                        <div class="aspect-video bg-linear-to-br from-navy to-charcoal"></div>
                         <div class="flex flex-1 flex-col p-6">
                             <span class="text-xs font-semibold uppercase tracking-wide text-accent">{{ $article['category'] }}</span>
                             <span class="mt-2 text-base font-semibold text-navy">{{ $article['title'] }}</span>

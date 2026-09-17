@@ -24,7 +24,7 @@
                     Solutions
                     <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
-                <div data-mega-menu-panel class="absolute left-1/2 top-full hidden w-[640px] -translate-x-1/2 pt-3 opacity-0 transition-all duration-150">
+                <div data-mega-menu-panel class="absolute left-1/2 top-full hidden w-160 -translate-x-1/2 pt-3 opacity-0 transition-all duration-150">
                     <div class="rounded-xl border border-navy/10 bg-white p-6 shadow-xl">
                         <div class="grid grid-cols-2 gap-8">
                             <div>
@@ -68,7 +68,7 @@
                     Services
                     <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
-                <div data-mega-menu-panel class="absolute left-1/2 top-full hidden w-[640px] -translate-x-1/2 pt-3 opacity-0 transition-all duration-150">
+                <div data-mega-menu-panel class="absolute left-1/2 top-full hidden w-160 -translate-x-1/2 pt-3 opacity-0 transition-all duration-150">
                     <div class="rounded-xl border border-navy/10 bg-white p-6 shadow-xl">
                         <div class="grid grid-cols-2 gap-x-8 gap-y-3">
                             @foreach ($services as $slug => $item)
@@ -92,7 +92,7 @@
                     Industries
                     <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
-                <div data-mega-menu-panel class="absolute left-1/2 top-full hidden w-[520px] -translate-x-1/2 pt-3 opacity-0 transition-all duration-150">
+                <div data-mega-menu-panel class="absolute left-1/2 top-full hidden w-130 -translate-x-1/2 pt-3 opacity-0 transition-all duration-150">
                     <div class="rounded-xl border border-navy/10 bg-white p-6 shadow-xl">
                         <div class="grid grid-cols-2 gap-x-8 gap-y-3">
                             @foreach ($industries as $slug => $item)
