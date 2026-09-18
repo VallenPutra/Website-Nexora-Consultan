@@ -68,9 +68,9 @@
                                     <td class="py-3 pr-3 text-muted">{{ $project['service'] }}</td>
                                     <td class="py-3 pr-3"><x-admin.progress-bar :value="$project['progress']" /></td>
                                     <td class="py-3 pr-3"><x-admin.status-badge :status="$project['status']" /></td>
-                                    <td class="py-3 pr-3 text-muted whitespace-nowrap">{{ \Illuminate\Support\Carbon::parse($project['deadline'])->format('d M Y') }}</td>
+                                    <td class="py-3 pr-3 text-muted whitespace-nowrap">{{ $project['deadline'] ? \Illuminate\Support\Carbon::parse($project['deadline'])->format('d M Y') : '—' }}</td>
                                     <td class="py-3 text-right">
-                                        <a href="{{ route('admin.placeholder', 'projects') }}" class="text-xs font-semibold text-accent hover:text-amber-600 whitespace-nowrap">View</a>
+                                        <a href="{{ route('admin.projects.show', $project['id']) }}" class="text-xs font-semibold text-accent hover:text-amber-600 whitespace-nowrap">View</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -88,7 +88,7 @@
                             </div>
                             <p class="text-xs text-muted mt-1">{{ $project['client'] }} &middot; {{ $project['service'] }}</p>
                             <div class="mt-3"><x-admin.progress-bar :value="$project['progress']" /></div>
-                            <p class="text-xs text-muted mt-2">Deadline: {{ \Illuminate\Support\Carbon::parse($project['deadline'])->format('d M Y') }}</p>
+                            <p class="text-xs text-muted mt-2">Deadline: {{ $project['deadline'] ? \Illuminate\Support\Carbon::parse($project['deadline'])->format('d M Y') : '—' }}</p>
                         </div>
                     @endforeach
                 </div>
@@ -98,13 +98,13 @@
             <div class="admin-card p-5">
                 <h3 class="text-base font-semibold text-navy mb-4">Quick Actions</h3>
                 <div class="space-y-2.5">
-                    <a href="{{ route('admin.placeholder', 'projects') }}" class="admin-btn-secondary w-full justify-start">
+                    <a href="{{ route('admin.projects.create') }}" class="admin-btn-secondary w-full justify-start">
                         <x-admin.icon name="plus" class="w-4 h-4" /> Add New Project
                     </a>
-                    <a href="{{ route('admin.placeholder', 'clients') }}" class="admin-btn-secondary w-full justify-start">
+                    <a href="{{ route('admin.clients.create') }}" class="admin-btn-secondary w-full justify-start">
                         <x-admin.icon name="plus" class="w-4 h-4" /> Add New Client
                     </a>
-                    <a href="{{ route('admin.placeholder', 'insights') }}" class="admin-btn-secondary w-full justify-start">
+                    <a href="{{ route('admin.insights.create') }}" class="admin-btn-secondary w-full justify-start">
                         <x-admin.icon name="plus" class="w-4 h-4" /> Create Insight
                     </a>
                     <a href="{{ route('admin.placeholder', 'consultation-requests') }}" class="admin-btn-secondary w-full justify-start">
@@ -115,8 +115,43 @@
                     </a>
                 </div>
                 <p class="mt-4 text-xs text-muted leading-relaxed">
-                    Actions above open their module page. Create/save actions aren't wired to a database yet, so nothing is actually stored until those modules are built.
+                    Project, client, and insight actions are connected to the live admin modules. Revenue and consultation requests remain demo data for now.
                 </p>
+            </div>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-3">
+            <div class="admin-card p-5">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-base font-semibold text-navy">Content Snapshot</h3>
+                    <a href="{{ route('admin.insights.index') }}" class="text-sm font-semibold text-accent hover:text-amber-600">Manage</a>
+                </div>
+                <dl class="mt-5 grid grid-cols-2 gap-4">
+                    <div class="rounded-lg bg-surface p-4"><dt class="text-xs text-muted">Active Team</dt><dd class="mt-1 text-2xl font-bold text-navy">{{ $contentStats['team'] }}</dd></div>
+                    <div class="rounded-lg bg-surface p-4"><dt class="text-xs text-muted">Media Files</dt><dd class="mt-1 text-2xl font-bold text-navy">{{ $contentStats['media'] }}</dd></div>
+                </dl>
+                <div class="mt-5 border-t border-navy/10 pt-4">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-muted">Latest Insights</p>
+                    <ul class="mt-3 space-y-3">
+                        @forelse ($latestInsights as $insight)
+                            <li><a href="{{ route('admin.insights.show', $insight) }}" class="block truncate text-sm font-medium text-navy hover:text-accent">{{ $insight->title }}</a><span class="text-xs text-muted">{{ $insight->published_at?->format('d M Y') ?: 'Draft date not set' }}</span></li>
+                        @empty
+                            <li class="text-sm text-muted">No published insights yet.</li>
+                        @endforelse
+                    </ul>
+                </div>
+            </div>
+
+            <div class="admin-card p-5 lg:col-span-2">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-base font-semibold text-navy">Live Catalog</h3>
+                    <a href="{{ route('admin.services.index') }}" class="text-sm font-semibold text-accent hover:text-amber-600">Manage Services</a>
+                </div>
+                <p class="mt-1 text-sm text-muted">Services and team profiles currently available to the public website.</p>
+                <div class="mt-5 grid gap-4 sm:grid-cols-2">
+                    <a href="{{ route('admin.services.index') }}" class="rounded-lg border border-navy/10 p-4 hover:border-accent"><p class="text-xs uppercase tracking-wide text-muted">Services</p><p class="mt-1 text-2xl font-bold text-navy">{{ $stats[3]['value'] }}</p><p class="mt-1 text-xs text-muted">Active public services</p></a>
+                    <a href="{{ route('admin.team.index') }}" class="rounded-lg border border-navy/10 p-4 hover:border-accent"><p class="text-xs uppercase tracking-wide text-muted">Team</p><p class="mt-1 text-2xl font-bold text-navy">{{ $contentStats['team'] }}</p><p class="mt-1 text-xs text-muted">Active public profiles</p></a>
+                </div>
             </div>
         </div>
 
