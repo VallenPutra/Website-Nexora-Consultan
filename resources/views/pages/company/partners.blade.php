@@ -1,15 +1,15 @@
 <x-layout
-    title="Partners"
-    description="NEXORA IT Consulting's technology and integration partners across cloud, enterprise software, and security."
+    :title="__('site.pages.company.partners_title')"
+    :description="__('site.pages.company.partners_description')"
 >
-    <x-breadcrumb :items="[['label' => 'Company', 'url' => route('company.about')], ['label' => 'Partners']]" />
+    <x-breadcrumb :items="[['label' => __('site.nav.company'), 'url' => route('company.about')], ['label' => __('site.pages.company.partners_title')]]" />
 
     <section class="bg-surface">
         <div class="container-nexora py-14 lg:py-20">
-            <p class="eyebrow">Partners</p>
-            <h1 class="mt-2 max-w-3xl text-3xl font-bold text-navy sm:text-4xl">Working with proven technology platforms</h1>
+            <p class="eyebrow">{{ __('site.pages.company.partners_title') }}</p>
+            <h1 class="mt-2 max-w-3xl text-3xl font-bold text-navy sm:text-4xl">{{ __('site.pages.company.partners_heading') }}</h1>
             <p class="mt-4 max-w-2xl text-base text-muted">
-                We stay platform-agnostic in our recommendations, but maintain deep working knowledge of the following platforms so we can implement and integrate them well.
+                {{ __('site.pages.company.partners_intro') }}
             </p>
         </div>
     </section>

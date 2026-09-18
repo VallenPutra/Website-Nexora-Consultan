@@ -1,9 +1,9 @@
 @props([
     'title' => 'NEXORA IT Consulting',
-    'description' => 'NEXORA IT Consulting helps businesses simplify operations, improve efficiency, and grow through reliable digital solutions.',
+    'description' => __('site.hero.subheadline'),
 ])
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,7 +15,7 @@
 </head>
 <body class="flex min-h-screen flex-col bg-white text-charcoal">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-100 focus:rounded-lg focus:bg-navy focus:px-4 focus:py-2 focus:text-white">
-        Skip to content
+        {{ __('site.breadcrumb.skip') }}
     </a>
 
     <x-announcement-bar />

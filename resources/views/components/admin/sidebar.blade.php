@@ -14,10 +14,10 @@
             ['label' => 'Dashboard', 'icon' => 'dashboard', 'href' => route('admin.dashboard'), 'active' => $isActive('admin.dashboard')],
         ],
         'BUSINESS MANAGEMENT' => [
-            ['label' => 'Projects', 'icon' => 'projects', 'href' => route('admin.placeholder', 'projects'), 'active' => $isActive(null, 'projects')],
-            ['label' => 'Services', 'icon' => 'services', 'href' => route('admin.placeholder', 'services'), 'active' => $isActive(null, 'services')],
-            ['label' => 'Clients', 'icon' => 'clients', 'href' => route('admin.placeholder', 'clients'), 'active' => $isActive(null, 'clients')],
-            ['label' => 'Team', 'icon' => 'team', 'href' => route('admin.placeholder', 'team'), 'active' => $isActive(null, 'team')],
+            ['label' => 'Projects', 'icon' => 'projects', 'href' => route('admin.projects.index'), 'active' => request()->routeIs('admin.projects.*')],
+            ['label' => 'Services', 'icon' => 'services', 'href' => route('admin.services.index'), 'active' => request()->routeIs('admin.services.*')],
+            ['label' => 'Clients', 'icon' => 'clients', 'href' => route('admin.clients.index'), 'active' => request()->routeIs('admin.clients.*')],
+            ['label' => 'Team', 'icon' => 'team', 'href' => route('admin.team.index'), 'active' => request()->routeIs('admin.team.*')],
         ],
         'CONTENT' => [
             ['label' => 'Insights', 'icon' => 'insights', 'href' => route('admin.placeholder', 'insights'), 'active' => $isActive(null, 'insights')],
@@ -54,7 +54,7 @@
         </button>
     </div>
 
-    <nav class="flex-1 overflow-y-auto px-3 py-5 space-y-6" aria-label="Admin">
+    <nav class="admin-sidebar-nav flex-1 overflow-y-auto px-3 py-5 space-y-6" aria-label="Admin">
         @foreach ($sections as $sectionLabel => $items)
             <div>
                 <p class="admin-sidebar-section-label admin-sidebar-label-text">{{ $sectionLabel }}</p>

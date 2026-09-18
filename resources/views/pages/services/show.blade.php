@@ -3,23 +3,23 @@
     :description="$service['short']"
 >
     <x-breadcrumb :items="[
-        ['label' => 'Services', 'url' => route('services.index')],
+        ['label' => __('site.pages.services.title'), 'url' => route('services.index')],
         ['label' => $service['title']],
     ]" />
 
     <section class="bg-surface">
         <div class="container-nexora py-14 lg:py-20">
-            <p class="eyebrow">Service</p>
+            <p class="eyebrow">{{ __('site.pages.detail.service') }}</p>
             <h1 class="mt-2 max-w-3xl text-3xl font-bold text-navy sm:text-4xl">{{ $service['hero'] }}</h1>
             <p class="mt-4 max-w-2xl text-base text-muted">{{ $service['subheadline'] }}</p>
-            <a href="{{ route('contact') }}" class="btn-primary mt-6">Start a Consultation</a>
+            <a href="{{ route('contact') }}" class="btn-primary mt-6">{{ __('site.pages.detail.contact') }}</a>
         </div>
     </section>
 
     <section class="section-py">
         <div class="container-nexora grid gap-12 lg:grid-cols-2">
             <div>
-                <h2 class="text-xl font-bold text-navy">The Challenge</h2>
+                <h2 class="text-xl font-bold text-navy">{{ __('site.pages.detail.challenge') }}</h2>
                 <div class="mt-4 space-y-4 text-sm text-muted sm:text-base">
                     @foreach ($service['problem'] as $p)
                         <p>{{ $p }}</p>
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div>
-                <h2 class="text-xl font-bold text-navy">Our Approach</h2>
+                <h2 class="text-xl font-bold text-navy">{{ __('site.pages.detail.approach') }}</h2>
                 <div class="mt-4 space-y-4 text-sm text-muted sm:text-base">
                     @foreach ($service['solution'] as $p)
                         <p>{{ $p }}</p>
@@ -39,7 +39,7 @@
 
     <section class="section-py bg-surface">
         <div class="container-nexora">
-            <x-section-heading title="What's included" />
+            <x-section-heading :title="__('site.pages.detail.features')" />
             <div class="mt-8 grid gap-4 sm:grid-cols-2">
                 @foreach ($service['features'] as $feature)
                     <div class="flex items-start gap-3 rounded-xl border border-navy/10 bg-white p-5">
@@ -53,7 +53,7 @@
 
     <section class="section-py">
         <div class="container-nexora">
-            <x-section-heading title="Our process" />
+            <x-section-heading :title="__('site.pages.detail.process')" />
             <ol class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 @foreach ($service['process'] as $index => $step)
                     <li class="rounded-xl border border-navy/10 p-6">
@@ -67,7 +67,7 @@
 
     <section class="section-py bg-surface">
         <div class="container-nexora">
-            <x-section-heading title="Benefits" />
+            <x-section-heading :title="__('site.pages.detail.benefits')" />
             <ul class="mt-8 grid gap-4 sm:grid-cols-2">
                 @foreach ($service['benefits'] as $benefit)
                     <li class="flex items-start gap-3 text-sm text-charcoal sm:text-base">

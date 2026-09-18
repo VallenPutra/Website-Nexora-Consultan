@@ -3,8 +3,8 @@
     $services = \App\Support\SiteContent::services();
     $industries = \App\Support\SiteContent::industries();
 
-    $businessSolutions = collect($solutions)->filter(fn ($item) => $item['group'] === 'Business Solutions');
-    $techSolutions = collect($solutions)->filter(fn ($item) => $item['group'] === 'Technology Solutions');
+    $businessSolutions = collect($solutions)->filter(fn ($item) => in_array($item['group'], ['Business Solutions', 'Solusi Bisnis'], true));
+    $techSolutions = collect($solutions)->filter(fn ($item) => in_array($item['group'], ['Technology Solutions', 'Solusi Teknologi'], true));
 @endphp
 
 <header class="sticky top-0 z-50 border-b border-navy/10 bg-white/95 backdrop-blur">

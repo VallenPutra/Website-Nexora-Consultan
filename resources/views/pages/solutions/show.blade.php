@@ -3,7 +3,7 @@
     :description="$solution['short']"
 >
     <x-breadcrumb :items="[
-        ['label' => 'Solutions', 'url' => route('solutions.index')],
+        ['label' => __('site.pages.solutions.title'), 'url' => route('solutions.index')],
         ['label' => $solution['title']],
     ]" />
 
@@ -13,7 +13,7 @@
             <p class="eyebrow">{{ $solution['group'] }}</p>
             <h1 class="mt-2 max-w-3xl text-3xl font-bold text-navy sm:text-4xl">{{ $solution['hero'] }}</h1>
             <p class="mt-4 max-w-2xl text-base text-muted">{{ $solution['subheadline'] }}</p>
-            <a href="{{ route('contact') }}" class="btn-primary mt-6">Start a Consultation</a>
+            <a href="{{ route('contact') }}" class="btn-primary mt-6">{{ __('site.pages.detail.contact') }}</a>
         </div>
     </section>
 
@@ -21,7 +21,7 @@
     <section class="section-py">
         <div class="container-nexora grid gap-12 lg:grid-cols-2">
             <div>
-                <h2 class="text-xl font-bold text-navy">The Challenge</h2>
+                <h2 class="text-xl font-bold text-navy">{{ __('site.pages.detail.challenge') }}</h2>
                 <div class="mt-4 space-y-4 text-sm text-muted sm:text-base">
                     @foreach ($solution['problem'] as $p)
                         <p>{{ $p }}</p>
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div>
-                <h2 class="text-xl font-bold text-navy">Our Approach</h2>
+                <h2 class="text-xl font-bold text-navy">{{ __('site.pages.detail.approach') }}</h2>
                 <div class="mt-4 space-y-4 text-sm text-muted sm:text-base">
                     @foreach ($solution['solution'] as $p)
                         <p>{{ $p }}</p>
@@ -42,7 +42,7 @@
     {{-- Features / Capabilities --}}
     <section class="section-py bg-surface">
         <div class="container-nexora">
-            <x-section-heading title="What's included" />
+            <x-section-heading :title="__('site.pages.detail.features')" />
             <div class="mt-8 grid gap-4 sm:grid-cols-2">
                 @foreach ($solution['features'] as $feature)
                     <div class="flex items-start gap-3 rounded-xl border border-navy/10 bg-white p-5">
@@ -57,7 +57,7 @@
     {{-- Process --}}
     <section class="section-py">
         <div class="container-nexora">
-            <x-section-heading title="How we work" />
+            <x-section-heading :title="__('site.pages.detail.process')" />
             <div class="mt-8 grid gap-6 sm:grid-cols-3">
                 @foreach (['Discover' => 'Understand your goals, constraints, and current environment.', 'Design & Build' => 'Design the solution and deliver it in manageable, validated phases.', 'Support' => 'Provide ongoing support as your business and needs evolve.'] as $step => $desc)
                     <div class="rounded-xl border border-navy/10 p-6">
@@ -72,7 +72,7 @@
     {{-- Benefits --}}
     <section class="section-py bg-surface">
         <div class="container-nexora">
-            <x-section-heading title="Benefits" />
+            <x-section-heading :title="__('site.pages.detail.benefits')" />
             <ul class="mt-8 grid gap-4 sm:grid-cols-2">
                 @foreach ($solution['benefits'] as $benefit)
                     <li class="flex items-start gap-3 text-sm text-charcoal sm:text-base">
@@ -87,7 +87,7 @@
     {{-- Related --}}
     <section class="section-py">
         <div class="container-nexora">
-            <x-section-heading title="Related solutions" />
+            <x-section-heading :title="__('site.pages.detail.related')" />
             <div class="mt-8 grid gap-6 sm:grid-cols-3">
                 @foreach ($solution['related'] as $relatedSlug)
                     @continue(!isset($allSolutions[$relatedSlug]))

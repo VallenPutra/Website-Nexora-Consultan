@@ -2,6 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Client;
+use App\Models\Project;
+use App\Models\Service;
+use App\Models\TeamMember;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -33,5 +37,65 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => now(),
             ]
         );
+
+        $clients = [
+            ['name' => 'Siti Rahma', 'company' => 'Klinik Sehat', 'email' => 'siti@kliniksehat.test', 'phone' => '+62 812 3456 7890', 'industry' => 'Healthcare'],
+            ['name' => 'Andi Pratama', 'company' => 'PT Maju Digital', 'email' => 'andi@majudigital.test', 'phone' => '+62 811 2345 6789', 'industry' => 'Technology'],
+            ['name' => 'Budi Santoso', 'company' => 'Toko Elektronik Jaya', 'email' => 'budi@tokojaya.test', 'phone' => '+62 813 9876 5432', 'industry' => 'Retail'],
+        ];
+
+        foreach ($clients as $client) {
+            Client::firstOrCreate(
+                ['email' => $client['email']],
+                [...$client, 'status' => 'active']
+            );
+        }
+
+        $projects = [
+            ['client_email' => 'siti@kliniksehat.test', 'name' => 'Sistem Rekam Medis', 'service' => 'Web Development', 'progress' => 80, 'status' => 'in_progress', 'deadline' => '2026-09-20'],
+            ['client_email' => 'andi@majudigital.test', 'name' => 'Cloud Migration Phase 1', 'service' => 'Cloud Solutions', 'progress' => 30, 'status' => 'planning', 'deadline' => '2026-10-10'],
+            ['client_email' => 'budi@tokojaya.test', 'name' => 'E-Commerce Platform', 'service' => 'Web Development', 'progress' => 100, 'status' => 'completed', 'deadline' => '2026-08-30'],
+        ];
+
+        foreach ($projects as $project) {
+            $client = Client::where('email', $project['client_email'])->firstOrFail();
+
+            Project::firstOrCreate(
+                ['name' => $project['name']],
+                [
+                    'client_id' => $client->id,
+                    'service' => $project['service'],
+                    'progress' => $project['progress'],
+                    'status' => $project['status'],
+                    'deadline' => $project['deadline'],
+                ]
+            );
+        }
+
+        $serviceContent = require base_path('lang/en/content.php');
+
+        foreach ($serviceContent['services'] as $sortOrder => $service) {
+            Service::firstOrCreate(
+                ['slug' => $sortOrder],
+                [
+                    'title' => $service['title'],
+                    'short' => $service['short'],
+                    'sort_order' => array_search($sortOrder, array_keys($serviceContent['services']), true),
+                    'is_active' => true,
+                ]
+            );
+        }
+
+        foreach ($serviceContent['team'] as $sortOrder => $member) {
+            TeamMember::firstOrCreate(
+                ['name' => $member['name']],
+                [
+                    'role' => $member['role'],
+                    'expertise' => $member['expertise'],
+                    'sort_order' => $sortOrder,
+                    'is_active' => true,
+                ]
+            );
+        }
     }
 }

@@ -3,16 +3,16 @@
     :description="$industry['short']"
 >
     <x-breadcrumb :items="[
-        ['label' => 'Industries', 'url' => route('industries.index')],
+        ['label' => __('site.pages.industries.title'), 'url' => route('industries.index')],
         ['label' => $industry['title']],
     ]" />
 
     <section class="bg-surface">
         <div class="container-nexora py-14 lg:py-20">
-            <p class="eyebrow">Industry</p>
+            <p class="eyebrow">{{ __('site.pages.detail.industry') }}</p>
             <h1 class="mt-2 max-w-3xl text-3xl font-bold text-navy sm:text-4xl">{{ $industry['hero'] }}</h1>
             <p class="mt-4 max-w-2xl text-base text-muted">{{ $industry['short'] }}</p>
-            <a href="{{ route('contact') }}" class="btn-primary mt-6">Talk to a Consultant</a>
+            <a href="{{ route('contact') }}" class="btn-primary mt-6">{{ __('site.pages.detail.contact') }}</a>
         </div>
     </section>
 

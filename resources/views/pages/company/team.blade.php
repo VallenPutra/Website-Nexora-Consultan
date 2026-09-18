@@ -1,15 +1,15 @@
 <x-layout
-    title="Our Team"
-    description="Meet the consultants and engineers behind NEXORA IT Consulting's project delivery."
+    :title="__('site.pages.company.team_title')"
+    :description="__('site.pages.company.team_description')"
 >
-    <x-breadcrumb :items="[['label' => 'Company', 'url' => route('company.about')], ['label' => 'Our Team']]" />
+    <x-breadcrumb :items="[['label' => __('site.nav.company'), 'url' => route('company.about')], ['label' => __('site.pages.company.team_title')]]" />
 
     <section class="bg-surface">
         <div class="container-nexora py-14 lg:py-20">
-            <p class="eyebrow">Our Team</p>
-            <h1 class="mt-2 max-w-3xl text-3xl font-bold text-navy sm:text-4xl">The people behind every engagement</h1>
+            <p class="eyebrow">{{ __('site.pages.company.team_title') }}</p>
+            <h1 class="mt-2 max-w-3xl text-3xl font-bold text-navy sm:text-4xl">{{ __('site.pages.company.team_heading') }}</h1>
             <p class="mt-4 max-w-2xl text-base text-muted">
-                Our team combines strategic consultants and hands-on engineers, so the recommendations we make are the same people who help build and support them.
+                {{ __('site.pages.company.team_intro') }}
             </p>
         </div>
     </section>

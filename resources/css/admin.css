@@ -1,4 +1,4 @@
-@import './app.css';
+@import "./app.css";
 
 @layer components {
     /* Sidebar */
@@ -6,12 +6,21 @@
         @apply flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition-colors duration-150 hover:bg-white/5 hover:text-white;
     }
 
-    .admin-sidebar-link[data-active='true'] {
+    .admin-sidebar-link[data-active="true"] {
         @apply bg-accent/15 text-accent;
     }
 
     .admin-sidebar-section-label {
         @apply px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/35;
+    }
+
+    .admin-sidebar-nav {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .admin-sidebar-nav::-webkit-scrollbar {
+        display: none;
     }
 
     /* Cards & surfaces */
@@ -28,11 +37,21 @@
         @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold;
     }
 
-    .admin-badge-neutral { @apply bg-surface text-charcoal; }
-    .admin-badge-info { @apply bg-blue-50 text-blue-700; }
-    .admin-badge-success { @apply bg-emerald-50 text-emerald-700; }
-    .admin-badge-warning { @apply bg-accent-soft text-amber-700; }
-    .admin-badge-danger { @apply bg-red-50 text-red-700; }
+    .admin-badge-neutral {
+        @apply bg-surface text-charcoal;
+    }
+    .admin-badge-info {
+        @apply bg-blue-50 text-blue-700;
+    }
+    .admin-badge-success {
+        @apply bg-emerald-50 text-emerald-700;
+    }
+    .admin-badge-warning {
+        @apply bg-accent-soft text-amber-700;
+    }
+    .admin-badge-danger {
+        @apply bg-red-50 text-red-700;
+    }
 
     /* Progress bar */
     .admin-progress-track {

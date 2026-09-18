@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PlaceholderController;
+use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
+use App\Http\Controllers\Admin\TeamMemberController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CompanyController;
@@ -75,5 +79,9 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 */
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('clients', ClientController::class);
+    Route::resource('projects', ProjectController::class);
+    Route::resource('services', AdminServiceController::class);
+    Route::resource('team', TeamMemberController::class)->parameters(['team' => 'teamMember']);
     Route::get('/{module}', [PlaceholderController::class, 'show'])->name('placeholder');
 });
