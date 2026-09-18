@@ -16,6 +16,11 @@ class InsightController extends Controller
         $category = $request->query('category');
         $search = $request->query('q');
 
+        $categoryAliases = app()->getLocale() === 'id'
+            ? ['IT Security' => 'Keamanan TI']
+            : ['Keamanan TI' => 'IT Security'];
+        $category = $categoryAliases[$category] ?? $category;
+
         $filtered = collect($articles)->when($category, function ($items) use ($category) {
             return $items->filter(fn ($article) => $article['category'] === $category);
         })->when($search, function ($items) use ($search) {

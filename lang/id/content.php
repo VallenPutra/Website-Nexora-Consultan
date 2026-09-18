@@ -38,6 +38,10 @@ $translations = [
         'erp-for-growing-business' => ['category' => 'ERP', 'title' => 'Memahami ERP untuk Perusahaan yang Berkembang', 'excerpt' => 'Seiring bisnis tumbuh, perangkat yang terpisah menjadi beban. Berikut cara ERP mengatasinya.'],
         'business-automation' => ['category' => 'Bisnis', 'title' => 'Meningkatkan Efisiensi Bisnis melalui Otomasi', 'excerpt' => 'Pekerjaan manual kecil yang menumpuk menghabiskan waktu. Otomasi terarah dapat mengembalikannya kepada tim Anda.'],
         'cybersecurity-basics' => ['category' => 'Keamanan TI', 'title' => 'Dasar-Dasar Keamanan Siber untuk Perusahaan Modern', 'excerpt' => 'Anda tidak membutuhkan anggaran keamanan enterprise untuk mengurangi risiko secara berarti.'],
+        'ai-readiness-for-business' => ['category' => 'Kecerdasan Buatan', 'title' => 'Mempersiapkan Bisnis untuk Adopsi AI yang Praktis', 'excerpt' => 'Adopsi AI yang berhasil dimulai dari masalah bisnis yang jelas, data yang andal, dan tim yang siap menggunakan hasilnya.'],
+        'api-integration-business-systems' => ['category' => 'Teknologi', 'title' => 'Mengapa Integrasi API Penting bagi Bisnis yang Berkembang', 'excerpt' => 'Sistem yang terhubung mengurangi pekerjaan berulang, meningkatkan visibilitas, dan memberikan gambaran operasional yang lebih andal.'],
+        'data-governance-foundations' => ['category' => 'Data & Analitik', 'title' => 'Membangun Fondasi Tata Kelola Data yang Kuat', 'excerpt' => 'Kepemilikan yang jelas dan praktik data yang konsisten membantu organisasi mengambil keputusan dengan lebih cepat dan percaya diri.'],
+        'zero-trust-security-principles' => ['category' => 'Keamanan TI', 'title' => 'Memahami Prinsip Keamanan Zero Trust', 'excerpt' => 'Zero trust membantu organisasi mengurangi risiko dengan memverifikasi setiap permintaan dan membatasi akses sesuai kebutuhan.'],
     ],
     'team' => [
         0 => ['role' => 'Direktur Utama', 'expertise' => 'Strategi TI, konsultasi enterprise'],
