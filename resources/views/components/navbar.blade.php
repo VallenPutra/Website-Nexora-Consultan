@@ -117,14 +117,14 @@
                     {{ __('site.nav.insights') }}
                     <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
-                <div data-mega-menu-panel class="absolute left-1/2 top-full hidden w-72 -translate-x-1/2 pt-3 opacity-0 transition-all duration-150">
-                    <div class="rounded-xl border border-navy/10 bg-white p-4 shadow-xl">
+                <div data-mega-menu-panel class="absolute left-1/2 top-full hidden w-130 -translate-x-1/2 pt-3 opacity-0 transition-all duration-150">
+                    <div class="rounded-xl border border-navy/10 bg-white p-6 shadow-xl">
                         <a href="{{ route('insights.index') }}" class="block rounded-lg bg-surface p-3 hover:text-accent">
                             <span class="block text-sm font-semibold text-navy">{{ __('site.nav.insights_blog') }}</span>
                             <span class="mt-1 block text-xs text-muted">{{ __('site.nav.insights_blog_description') }}</span>
                         </a>
                         <p class="mb-2 mt-4 px-3 text-xs font-semibold uppercase tracking-wide text-muted">{{ __('site.nav.insight_categories') }}</p>
-                        <div class="space-y-1">
+                        <div class="grid grid-cols-2 gap-x-8 gap-y-1">
                             <a href="{{ route('insights.index') }}" class="block rounded-lg px-3 py-2 text-sm font-medium text-navy hover:bg-surface hover:text-accent">{{ __('site.nav.all_insights') }}</a>
                             @foreach ($insightCategories as $category)
                                 <a href="{{ route('insights.index', ['category' => $category]) }}" class="block rounded-lg px-3 py-2 text-sm text-muted hover:bg-surface hover:text-navy">{{ $category }}</a>
