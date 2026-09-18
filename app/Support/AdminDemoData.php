@@ -219,7 +219,6 @@ class AdminDemoData
             'consultation-requests' => ['label' => 'Consultation Requests', 'description' => 'A full, filterable list of every consultation request submitted through the contact form.'],
             'messages' => ['label' => 'Messages', 'description' => 'Internal messaging and notes tied to clients and projects.'],
             'reports' => ['label' => 'Reports', 'description' => 'Exportable reports across projects, clients, and revenue.'],
-            'revenue' => ['label' => 'Revenue', 'description' => 'Detailed revenue tracking, invoices, and payment status.'],
             'settings' => ['label' => 'Settings', 'description' => 'Manage admin accounts, roles, and system preferences.'],
         ];
     }

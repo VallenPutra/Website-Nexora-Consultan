@@ -28,7 +28,7 @@
         ],
         'REPORTS' => [
             ['label' => 'Reports', 'icon' => 'reports', 'href' => route('admin.reports.index'), 'active' => request()->routeIs('admin.reports.*')],
-            ['label' => 'Revenue', 'icon' => 'revenue', 'href' => route('admin.placeholder', 'revenue'), 'active' => $isActive(null, 'revenue')],
+            ['label' => 'Revenue', 'icon' => 'revenue', 'href' => route('admin.revenue.index'), 'active' => request()->routeIs('admin.revenue.*')],
         ],
         'SYSTEM' => [
             ['label' => 'Settings', 'icon' => 'settings', 'href' => route('admin.placeholder', 'settings'), 'active' => $isActive(null, 'settings')],

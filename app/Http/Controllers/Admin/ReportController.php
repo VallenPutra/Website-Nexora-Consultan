@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\ConsultationRequest;
 use App\Models\Insight;
 use App\Models\Project;
+use App\Models\Revenue;
 use App\Models\Service;
 use App\Models\TeamMember;
 use Illuminate\View\View;
@@ -54,6 +55,7 @@ class ReportController extends Controller
                 ['label' => 'Active Team', 'value' => TeamMember::active()->count(), 'href' => route('admin.team.index')],
                 ['label' => 'Published Insights', 'value' => Insight::published()->count(), 'href' => route('admin.insights.index')],
                 ['label' => 'Consultation Requests', 'value' => ConsultationRequest::count(), 'href' => route('admin.consultation-requests.index')],
+                ['label' => 'Revenue Collected', 'value' => 'Rp'.number_format(Revenue::paid()->sum('amount'), 0, ',', '.'), 'href' => route('admin.revenue.index')],
             ],
             'projectStatuses' => $projectStatuses,
             'requestStatuses' => $requestStatuses,

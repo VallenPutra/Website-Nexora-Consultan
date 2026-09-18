@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\MediaLibraryController;
 use App\Http\Controllers\Admin\PlaceholderController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\RevenueController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\TeamMemberController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -101,5 +102,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::post('/consultation-requests/{consultationRequest}/messages', [ConsultationMessageController::class, 'store'])->name('consultation-requests.messages.store');
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export');
+    Route::resource('revenue', RevenueController::class)->parameters(['revenue' => 'revenue']);
+    Route::patch('/revenue/{revenue}/mark-paid', [RevenueController::class, 'markPaid'])->name('revenue.mark-paid');
     Route::get('/{module}', [PlaceholderController::class, 'show'])->name('placeholder');
 });

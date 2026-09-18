@@ -17,7 +17,7 @@ class PlaceholderController extends Controller
         $modules = AdminDemoData::placeholderModules();
 
         if (! isset($modules[$module])) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException;
         }
 
         return view('admin.placeholder', [

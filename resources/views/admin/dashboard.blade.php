@@ -107,7 +107,10 @@
                     <a href="{{ route('admin.insights.create') }}" class="admin-btn-secondary w-full justify-start">
                         <x-admin.icon name="plus" class="w-4 h-4" /> Create Insight
                     </a>
-                    <a href="{{ route('admin.placeholder', 'consultation-requests') }}" class="admin-btn-secondary w-full justify-start">
+                    <a href="{{ route('admin.revenue.create') }}" class="admin-btn-secondary w-full justify-start">
+                        <x-admin.icon name="revenue" class="w-4 h-4" /> Record Revenue
+                    </a>
+                    <a href="{{ route('admin.consultation-requests.index') }}" class="admin-btn-secondary w-full justify-start">
                         <x-admin.icon name="requests" class="w-4 h-4" /> View Consultation Requests
                     </a>
                     <a href="{{ route('home') }}" target="_blank" rel="noopener" class="admin-btn-primary w-full justify-start">
@@ -115,7 +118,7 @@
                     </a>
                 </div>
                 <p class="mt-4 text-xs text-muted leading-relaxed">
-                    Project, client, and insight actions are connected to the live admin modules. Revenue and consultation requests remain demo data for now.
+                    All quick actions above are connected to live admin modules.
                 </p>
             </div>
         </div>
@@ -161,9 +164,9 @@
             <div class="admin-card p-5 lg:col-span-2">
                 <div class="flex items-center justify-between mb-1">
                     <h3 class="text-base font-semibold text-navy">Revenue Overview</h3>
-                    <span class="admin-badge admin-badge-warning">Demo Data</span>
+                    <a href="{{ route('admin.revenue.index') }}" class="text-sm font-semibold text-accent hover:text-amber-600">Manage Revenue →</a>
                 </div>
-                <p class="text-xs text-muted mb-4">Last 6 months &middot; not connected to real financial data yet</p>
+                <p class="text-xs text-muted mb-4">Last 6 months, paid revenue &middot; this month: <span class="font-semibold text-navy">{{ $formatRupiah($monthlyRevenue) }}</span></p>
                 <x-admin.revenue-chart :data="$revenue" />
             </div>
 

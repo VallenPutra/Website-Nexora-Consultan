@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Client;
 use App\Models\Insight;
 use App\Models\Project;
+use App\Models\Revenue;
 use App\Models\Service;
 use App\Models\TeamMember;
 use App\Models\User;
@@ -69,6 +70,30 @@ class DatabaseSeeder extends Seeder
                     'progress' => $project['progress'],
                     'status' => $project['status'],
                     'deadline' => $project['deadline'],
+                ]
+            );
+        }
+
+        $revenues = [
+            ['client_email' => 'budi@tokojaya.test', 'project_name' => 'E-Commerce Platform', 'description' => 'E-Commerce Platform — Final Payment', 'amount' => 27_000_000, 'status' => 'paid', 'invoice_date' => now()->subMonth()->startOfMonth()->addDays(4)->format('Y-m-d'), 'paid_at' => now()->subMonth()->startOfMonth()->addDays(9)->format('Y-m-d')],
+            ['client_email' => 'siti@kliniksehat.test', 'project_name' => 'Sistem Rekam Medis', 'description' => 'Sistem Rekam Medis — Milestone 2', 'amount' => 18_000_000, 'status' => 'paid', 'invoice_date' => now()->startOfMonth()->addDays(2)->format('Y-m-d'), 'paid_at' => now()->startOfMonth()->addDays(6)->format('Y-m-d')],
+            ['client_email' => 'andi@majudigital.test', 'project_name' => 'Cloud Migration Phase 1', 'description' => 'Cloud Migration Phase 1 — Deposit', 'amount' => 15_000_000, 'status' => 'pending', 'invoice_date' => now()->format('Y-m-d'), 'paid_at' => null],
+            ['client_email' => 'siti@kliniksehat.test', 'project_name' => null, 'description' => 'Monthly Cloud Support Retainer', 'amount' => 4_500_000, 'status' => 'overdue', 'invoice_date' => now()->subDays(20)->format('Y-m-d'), 'paid_at' => null],
+        ];
+
+        foreach ($revenues as $revenue) {
+            $client = Client::where('email', $revenue['client_email'])->firstOrFail();
+            $project = $revenue['project_name'] ? Project::where('name', $revenue['project_name'])->first() : null;
+
+            Revenue::firstOrCreate(
+                ['description' => $revenue['description']],
+                [
+                    'client_id' => $client->id,
+                    'project_id' => $project?->id,
+                    'amount' => $revenue['amount'],
+                    'status' => $revenue['status'],
+                    'invoice_date' => $revenue['invoice_date'],
+                    'paid_at' => $revenue['paid_at'],
                 ]
             );
         }

@@ -7,10 +7,12 @@ use App\Models\Client;
 use App\Models\ConsultationRequest;
 use App\Models\Insight;
 use App\Models\Project;
+use App\Models\Revenue;
 use App\Models\Service;
 use App\Models\TeamMember;
 use App\Support\AdminDemoData;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
@@ -63,6 +65,30 @@ class DashboardController extends Controller
             })
             ->all();
 
+        $revenueByMonth = Revenue::query()
+            ->paid()
+            ->where('paid_at', '>=', now()->subMonths(5)->startOfMonth())
+            ->get()
+            ->groupBy(fn (Revenue $revenue): string => $revenue->paid_at->format('Y-m'))
+            ->map(fn ($group, $key): array => [
+                'month' => Carbon::createFromFormat('Y-m', $key)->format('M'),
+                'amount' => $group->sum('amount'),
+            ]);
+
+        $revenue = collect(range(5, 0))
+            ->map(fn (int $monthsAgo) => now()->subMonths($monthsAgo)->format('Y-m'))
+            ->map(fn (string $key) => $revenueByMonth->get($key) ?? [
+                'month' => Carbon::createFromFormat('Y-m', $key)->format('M'),
+                'amount' => 0,
+            ])
+            ->values()
+            ->all();
+
+        $monthlyRevenue = Revenue::query()
+            ->paid()
+            ->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()])
+            ->sum('amount');
+
         $contentStats = [
             'team' => TeamMember::active()->count(),
             'media' => count(Storage::disk('public')->files('media')),
@@ -94,7 +120,8 @@ class DashboardController extends Controller
             'isLive' => AdminDemoData::isLive(),
             'stats' => $stats,
             'projects' => $projects,
-            'revenue' => AdminDemoData::revenueByMonth(),
+            'revenue' => $revenue,
+            'monthlyRevenue' => $monthlyRevenue,
             'requests' => $requests,
             'activity' => AdminDemoData::recentActivity(),
             'deadlines' => $deadlines,

@@ -9,7 +9,7 @@
             <a href="{{ route('admin.reports.export') }}" class="admin-btn-primary"><x-admin.icon name="external" class="h-4 w-4" /> Export Projects CSV</a>
         </div>
 
-        <div class="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
+        <div class="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-7">
             @foreach ($summary as $item)
                 <a href="{{ $item['href'] }}" class="admin-stat-card hover:border-accent">
                     <p class="text-xs font-medium uppercase tracking-wide text-muted">{{ $item['label'] }}</p>
@@ -61,6 +61,5 @@
             @endif
         </section>
 
-        <div class="rounded-xl border border-accent/30 bg-accent-soft px-4 py-3 text-sm text-amber-900"><strong class="font-semibold">Revenue reporting:</strong> transaction and invoice data is not available yet, so revenue remains excluded from live reports.</div>
     </div>
 </x-admin.layout>
