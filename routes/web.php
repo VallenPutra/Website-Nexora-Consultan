@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\RevenueController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\TeamMemberController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -104,5 +105,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export');
     Route::resource('revenue', RevenueController::class)->parameters(['revenue' => 'revenue']);
     Route::patch('/revenue/{revenue}/mark-paid', [RevenueController::class, 'markPaid'])->name('revenue.mark-paid');
+
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::put('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.profile');
+    Route::put('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.password');
+    Route::post('/settings/users', [SettingsController::class, 'storeUser'])->name('settings.users.store');
+    Route::delete('/settings/users/{user}', [SettingsController::class, 'destroyUser'])->name('settings.users.destroy');
+
     Route::get('/{module}', [PlaceholderController::class, 'show'])->name('placeholder');
 });

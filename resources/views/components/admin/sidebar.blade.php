@@ -31,7 +31,7 @@
             ['label' => 'Revenue', 'icon' => 'revenue', 'href' => route('admin.revenue.index'), 'active' => request()->routeIs('admin.revenue.*')],
         ],
         'SYSTEM' => [
-            ['label' => 'Settings', 'icon' => 'settings', 'href' => route('admin.placeholder', 'settings'), 'active' => $isActive(null, 'settings')],
+            ['label' => 'Settings', 'icon' => 'settings', 'href' => route('admin.settings.index'), 'active' => request()->routeIs('admin.settings.*')],
         ],
     ];
 @endphp
