@@ -27,7 +27,7 @@
             ['label' => 'Consultation Requests', 'icon' => 'requests', 'href' => route('admin.consultation-requests.index'), 'active' => request()->routeIs('admin.consultation-requests.*')],
         ],
         'REPORTS' => [
-            ['label' => 'Reports', 'icon' => 'reports', 'href' => route('admin.placeholder', 'reports'), 'active' => $isActive(null, 'reports')],
+            ['label' => 'Reports', 'icon' => 'reports', 'href' => route('admin.reports.index'), 'active' => request()->routeIs('admin.reports.*')],
             ['label' => 'Revenue', 'icon' => 'revenue', 'href' => route('admin.placeholder', 'revenue'), 'active' => $isActive(null, 'revenue')],
         ],
         'SYSTEM' => [

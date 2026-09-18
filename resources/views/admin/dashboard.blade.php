@@ -172,15 +172,12 @@
                 <h3 class="text-base font-semibold text-navy mb-4">Upcoming Deadlines</h3>
                 <ul class="space-y-4">
                     @foreach ($deadlines as $item)
-                        @php
-                            $daysLeft = now()->diffInDays(\Illuminate\Support\Carbon::parse($item['deadline']), false);
-                        @endphp
                         <li class="flex items-start justify-between gap-3">
                             <div class="min-w-0">
                                 <p class="text-sm font-medium text-navy truncate">{{ $item['project'] }}</p>
                                 <p class="text-xs text-muted mt-0.5">
                                     {{ \Illuminate\Support\Carbon::parse($item['deadline'])->format('d M Y') }}
-                                    &middot; {{ $daysLeft >= 0 ? $daysLeft.' days left' : 'Overdue' }}
+                                    &middot; {{ $item['days_left'] >= 0 ? $item['days_left'].' days left' : 'Overdue' }}
                                 </p>
                             </div>
                             <span class="admin-badge {{ $priorityTone($item['priority']) }} shrink-0">{{ $item['priority'] }}</span>

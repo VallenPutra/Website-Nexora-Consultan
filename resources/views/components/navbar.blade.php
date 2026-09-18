@@ -2,6 +2,8 @@
     $solutions = \App\Support\SiteContent::solutions();
     $services = \App\Support\SiteContent::services();
     $industries = \App\Support\SiteContent::industries();
+    $insights = \App\Support\SiteContent::insights();
+    $insightCategories = collect($insights)->pluck('category')->unique()->values();
 
     $businessSolutions = collect($solutions)->filter(fn ($item) => in_array($item['group'], ['Business Solutions', 'Solusi Bisnis'], true));
     $techSolutions = collect($solutions)->filter(fn ($item) => in_array($item['group'], ['Technology Solutions', 'Solusi Teknologi'], true));
@@ -109,7 +111,28 @@
                 </div>
             </div>
 
-            <a href="{{ route('insights.index') }}" class="rounded-lg px-4 py-2 text-sm font-medium text-navy hover:text-accent">{{ __('site.nav.insights') }}</a>
+            <div class="relative" data-mega-menu-item>
+                <button type="button" data-mega-menu-trigger aria-expanded="false"
+                    class="flex items-center gap-1 rounded-lg px-4 py-2 text-sm font-medium text-navy hover:text-accent">
+                    {{ __('site.nav.insights') }}
+                    <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <div data-mega-menu-panel class="absolute left-1/2 top-full hidden w-72 -translate-x-1/2 pt-3 opacity-0 transition-all duration-150">
+                    <div class="rounded-xl border border-navy/10 bg-white p-4 shadow-xl">
+                        <a href="{{ route('insights.index') }}" class="block rounded-lg bg-surface p-3 hover:text-accent">
+                            <span class="block text-sm font-semibold text-navy">{{ __('site.nav.insights_blog') }}</span>
+                            <span class="mt-1 block text-xs text-muted">{{ __('site.nav.insights_blog_description') }}</span>
+                        </a>
+                        <p class="mb-2 mt-4 px-3 text-xs font-semibold uppercase tracking-wide text-muted">{{ __('site.nav.insight_categories') }}</p>
+                        <div class="space-y-1">
+                            <a href="{{ route('insights.index') }}" class="block rounded-lg px-3 py-2 text-sm font-medium text-navy hover:bg-surface hover:text-accent">{{ __('site.nav.all_insights') }}</a>
+                            @foreach ($insightCategories as $category)
+                                <a href="{{ route('insights.index', ['category' => $category]) }}" class="block rounded-lg px-3 py-2 text-sm text-muted hover:bg-surface hover:text-navy">{{ $category }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {{-- Company dropdown --}}
             <div class="relative" data-mega-menu-item>
@@ -150,7 +173,7 @@
                         aria-label="{{ __('site.nav.dashboard') }}">
                         {{ collect(explode(' ', auth()->user()->name ?? 'U'))->map(fn ($n) => $n[0] ?? '')->take(2)->implode('') }}
                     </button>
-                    <div data-mega-menu-panel class="absolute right-0 top-full hidden w-48 -translate-x-0 pt-3 opacity-0 transition-all duration-150">
+                    <div data-mega-menu-panel class="absolute right-0 top-full hidden w-48 translate-x-0 pt-3 opacity-0 transition-all duration-150">
                         <div class="rounded-xl border border-navy/10 bg-white p-2 shadow-xl">
                             <a href="{{ route('admin.dashboard') }}" class="block rounded-lg px-3 py-2 text-sm font-medium text-navy hover:bg-surface hover:text-accent">{{ __('site.nav.dashboard') }}</a>
                             <form method="POST" action="{{ route('logout') }}">
@@ -222,7 +245,18 @@
                 </div>
             </div>
 
-            <a href="{{ route('insights.index') }}" class="block rounded-lg px-2 py-3 text-sm font-semibold text-navy">{{ __('site.nav.insights') }}</a>
+            <div>
+                <button type="button" data-accordion-trigger aria-expanded="false" class="flex w-full items-center justify-between rounded-lg px-2 py-3 text-left text-sm font-semibold text-navy">
+                    {{ __('site.nav.insights') }}
+                    <svg data-accordion-icon class="h-4 w-4 transition-transform" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <div class="hidden space-y-1 pb-2 pl-2">
+                    <a href="{{ route('insights.index') }}" class="block rounded-lg px-2 py-2 text-sm font-semibold text-navy hover:text-accent">{{ __('site.nav.insights_blog') }}</a>
+                    @foreach ($insightCategories as $category)
+                        <a href="{{ route('insights.index', ['category' => $category]) }}" class="block rounded-lg px-2 py-2 text-sm text-muted hover:text-navy">{{ $category }}</a>
+                    @endforeach
+                </div>
+            </div>
 
             <div>
                 <button type="button" data-accordion-trigger aria-expanded="false" class="flex w-full items-center justify-between rounded-lg px-2 py-3 text-left text-sm font-semibold text-navy">

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\InsightController as AdminInsightController;
 use App\Http\Controllers\Admin\MediaLibraryController;
 use App\Http\Controllers\Admin\PlaceholderController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\TeamMemberController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -98,5 +99,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::delete('/media/{path}', [MediaLibraryController::class, 'destroy'])->where('path', '.*')->name('media.destroy');
     Route::resource('consultation-requests', ConsultationRequestController::class)->only(['index', 'show', 'update', 'destroy']);
     Route::post('/consultation-requests/{consultationRequest}/messages', [ConsultationMessageController::class, 'store'])->name('consultation-requests.messages.store');
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export');
     Route::get('/{module}', [PlaceholderController::class, 'show'])->name('placeholder');
 });

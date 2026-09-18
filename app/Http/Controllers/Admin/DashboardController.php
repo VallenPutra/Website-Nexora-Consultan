@@ -51,11 +51,16 @@ class DashboardController extends Controller
             ->orderBy('deadline')
             ->limit(4)
             ->get()
-            ->map(fn (Project $project): array => [
-                'project' => $project->name,
-                'deadline' => $project->deadline->format('Y-m-d'),
-                'priority' => $project->deadline->isPast() ? 'High' : ($project->deadline->diffInDays(now()) <= 7 ? 'Medium' : 'Low'),
-            ])
+            ->map(function (Project $project): array {
+                $daysLeft = (int) now()->startOfDay()->diffInDays($project->deadline->startOfDay(), false);
+
+                return [
+                    'project' => $project->name,
+                    'deadline' => $project->deadline->format('Y-m-d'),
+                    'days_left' => $daysLeft,
+                    'priority' => $daysLeft < 0 ? 'High' : ($daysLeft <= 7 ? 'Medium' : 'Low'),
+                ];
+            })
             ->all();
 
         $contentStats = [
