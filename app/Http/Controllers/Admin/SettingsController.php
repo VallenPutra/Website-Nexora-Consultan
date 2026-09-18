@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
@@ -21,7 +20,7 @@ class SettingsController extends Controller
     public function index(Request $request): View
     {
         return view('admin.settings.index', [
-            'admins' => User::query()->orderBy('name')->get(),
+            'admins' => User::query()->where('role', 'admin')->orderBy('name')->get(),
             'registrationOpen' => (bool) config('nexora.registration_open'),
         ]);
     }
@@ -74,7 +73,9 @@ class SettingsController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        User::create($validated);
+        $admin = new User($validated);
+        $admin->role = 'admin';
+        $admin->save();
 
         return redirect()->route('admin.settings.index')->with('status', 'Admin account created successfully.');
     }
@@ -87,11 +88,11 @@ class SettingsController extends Controller
      */
     public function destroyUser(Request $request, User $user): RedirectResponse
     {
-        if ($user->is(Auth::user())) {
+        if (! $user->isAdmin() || $user->is(Auth::user())) {
             return redirect()->route('admin.settings.index')->with('error', "You can't delete your own account while signed in.");
         }
 
-        if (User::count() <= 1) {
+        if (User::query()->where('role', 'admin')->count() <= 1) {
             return redirect()->route('admin.settings.index')->with('error', 'At least one admin account must remain.');
         }
 

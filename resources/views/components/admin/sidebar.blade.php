@@ -32,6 +32,7 @@
         ],
         'SYSTEM' => [
             ['label' => 'Settings', 'icon' => 'settings', 'href' => route('admin.settings.index'), 'active' => request()->routeIs('admin.settings.*')],
+            ['label' => 'Account Manager', 'icon' => 'user', 'href' => route('admin.account-manager.index'), 'active' => request()->routeIs('admin.account-manager.*')],
         ],
     ];
 @endphp

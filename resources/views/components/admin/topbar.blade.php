@@ -59,7 +59,7 @@
                     <p class="text-sm font-medium text-navy">{{ $adminName ?? 'Admin' }}</p>
                     <p class="text-xs text-muted">Administrator</p>
                 </div>
-                <a href="{{ route('admin.placeholder', 'settings') }}" role="menuitem" class="block rounded-lg px-3 py-2 text-sm text-charcoal hover:bg-surface">Account Settings</a>
+                <a href="{{ route('admin.settings.index') }}" role="menuitem" class="block rounded-lg px-3 py-2 text-sm text-charcoal hover:bg-surface">Account Settings</a>
                 <a href="{{ route('home') }}" target="_blank" rel="noopener" role="menuitem" class="block rounded-lg px-3 py-2 text-sm text-charcoal hover:bg-surface">View Public Website</a>
                 <div class="my-1 border-t border-navy/10"></div>
                 <form method="POST" action="{{ route('logout') }}">

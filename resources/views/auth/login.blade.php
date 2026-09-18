@@ -1,7 +1,7 @@
 <x-auth.layout title="Sign In">
 
-    <h1 class="text-xl font-bold text-navy">Sign in to your dashboard</h1>
-    <p class="mt-1.5 text-sm text-muted">Enter your credentials to access the NEXORA admin panel.</p>
+    <h1 class="text-xl font-bold text-navy">Sign in to your account</h1>
+    <p class="mt-1.5 text-sm text-muted">Enter your credentials to continue to NEXORA.</p>
 
     @if (session('status'))
         <div class="mt-5 rounded-lg bg-emerald-50 px-3.5 py-2.5 text-sm text-emerald-700">

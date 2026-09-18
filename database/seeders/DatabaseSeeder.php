@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Vallen',
                 'password' => 'password', // hashed automatically via the model's 'hashed' cast
                 'email_verified_at' => now(),
+                'role' => 'admin',
             ]
         );
 

@@ -4,14 +4,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Public admin registration
+    | Public user registration
     |--------------------------------------------------------------------------
-    | Anyone who can reach /register can currently create an admin account.
-    | That's fine for local development, but set ADMIN_REGISTRATION_OPEN=false
-    | in production's .env once you've seeded/created the accounts you need
-    | (see database/seeders/DatabaseSeeder.php), so a public visitor can't
-    | just sign themselves up as an admin.
+    | Anyone who can reach /register can create a standard user account.
+    | Admin accounts are created by an existing admin from the Settings page.
     */
-    'registration_open' => (bool) env('ADMIN_REGISTRATION_OPEN', true),
+    'registration_open' => true,
 
 ];

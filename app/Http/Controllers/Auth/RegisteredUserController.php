@@ -22,7 +22,7 @@ class RegisteredUserController extends Controller
         return view('auth.register');
     }
 
-    /** Handle a new admin account registration. */
+    /** Handle a new user account registration. */
     public function store(Request $request): RedirectResponse
     {
         abort_unless(config('nexora.registration_open'), 403, 'Public registration is currently closed.');
@@ -39,10 +39,12 @@ class RegisteredUserController extends Controller
             'password' => $validated['password'], // hashed automatically via the model's 'hashed' cast
         ]);
 
+        $user->forceFill(['role' => 'user'])->save();
+
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('home');
     }
 }

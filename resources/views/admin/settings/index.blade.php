@@ -75,7 +75,7 @@
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-navy/10 p-5 sm:p-6">
                 <div>
                     <h2 class="text-base font-semibold text-navy">Admin Accounts</h2>
-                    <p class="mt-1 text-sm text-muted">Everyone listed here can sign in and manage this dashboard.</p>
+                        <p class="mt-1 text-sm text-muted">Only active administrators can sign in and manage this dashboard.</p>
                 </div>
             </div>
 
@@ -85,7 +85,9 @@
                         <tr>
                             <th class="px-5 py-3 font-medium sm:px-6">Name</th>
                             <th class="px-5 py-3 font-medium sm:px-6">Email</th>
-                            <th class="px-5 py-3 text-right font-medium sm:px-6">Action</th>
+                            <th class="px-5 py-3 font-medium sm:px-6">Role</th>
+                            <th class="px-5 py-3 font-medium sm:px-6">Status</th>
+                            <th class="px-5 py-3 text-right font-medium sm:px-6">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-navy/5">
@@ -98,6 +100,8 @@
                                     @endif
                                 </td>
                                 <td class="px-5 py-4 text-muted sm:px-6">{{ $admin->email }}</td>
+                                <td class="px-5 py-4 text-muted sm:px-6">Admin</td>
+                                <td class="px-5 py-4 sm:px-6"><span class="admin-badge admin-badge-success">Active</span></td>
                                 <td class="px-5 py-4 text-right sm:px-6">
                                     @unless ($admin->is(auth()->user()))
                                         <form method="POST" action="{{ route('admin.settings.users.destroy', $admin) }}"
@@ -150,27 +154,20 @@
             </div>
         </div>
 
-        {{-- System Preferences (read-only status; changed via .env for safety) --}}
+        {{-- System Preferences --}}
         <div class="admin-card p-5 sm:p-6">
             <h2 class="text-base font-semibold text-navy">System Preferences</h2>
-            <p class="mt-1 text-sm text-muted">Server-level settings. These are read from the app's environment configuration rather than edited here, so a bad value can't accidentally lock everyone out.</p>
+            <p class="mt-1 text-sm text-muted">Public registration creates standard user accounts only. Admin accounts are managed above.</p>
 
             <div class="mt-4 flex items-center justify-between rounded-lg border border-navy/10 bg-surface px-4 py-3">
                 <div>
                     <p class="text-sm font-medium text-navy">Public admin registration</p>
-                    <p class="text-xs text-muted">Whether {{ url('/register') }} lets anyone create an admin account.</p>
+                    <p class="text-xs text-muted">{{ url('/register') }} is available for standard user registration.</p>
                 </div>
                 <span class="admin-badge {{ $registrationOpen ? 'admin-badge-warning' : 'admin-badge-success' }}">
                     {{ $registrationOpen ? 'Open' : 'Closed' }}
                 </span>
             </div>
-            @if ($registrationOpen)
-                <p class="mt-3 text-xs text-muted">
-                    Now that you can add admins from the "Admin Accounts" section above, consider setting
-                    <code class="rounded bg-navy/5 px-1 py-0.5">ADMIN_REGISTRATION_OPEN=false</code> in your <code class="rounded bg-navy/5 px-1 py-0.5">.env</code> file
-                    so the public can no longer self-register.
-                </p>
-            @endif
         </div>
     </div>
 </x-admin.layout>

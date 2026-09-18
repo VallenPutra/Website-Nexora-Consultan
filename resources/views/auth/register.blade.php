@@ -1,7 +1,7 @@
 <x-auth.layout title="Create Account">
 
-    <h1 class="text-xl font-bold text-navy">Create an admin account</h1>
-    <p class="mt-1.5 text-sm text-muted">Set up access to the NEXORA admin panel.</p>
+    <h1 class="text-xl font-bold text-navy">Create an account</h1>
+    <p class="mt-1.5 text-sm text-muted">Create your account to connect with NEXORA.</p>
 
     <form method="POST" action="{{ route('register') }}" class="mt-6 space-y-5">
         @csrf

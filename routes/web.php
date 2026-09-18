@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AccountManagerController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ConsultationMessageController;
 use App\Http\Controllers\Admin\ConsultationRequestController;
@@ -88,7 +89,7 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 | Now protected by the 'auth' middleware — unauthenticated visitors are
 | redirected to /login automatically.
 */
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('clients', ClientController::class);
     Route::resource('projects', ProjectController::class);
@@ -111,6 +112,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::put('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.password');
     Route::post('/settings/users', [SettingsController::class, 'storeUser'])->name('settings.users.store');
     Route::delete('/settings/users/{user}', [SettingsController::class, 'destroyUser'])->name('settings.users.destroy');
+    Route::get('/account-manager', [AccountManagerController::class, 'index'])->name('account-manager.index');
+    Route::post('/account-manager', [AccountManagerController::class, 'store'])->name('account-manager.store');
+    Route::delete('/account-manager/{user}', [AccountManagerController::class, 'destroy'])->name('account-manager.destroy');
 
     Route::get('/{module}', [PlaceholderController::class, 'show'])->name('placeholder');
 });
