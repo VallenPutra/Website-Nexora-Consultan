@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\InsightController as AdminInsightController;
+use App\Http\Controllers\Admin\MediaLibraryController;
 use App\Http\Controllers\Admin\PlaceholderController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
@@ -83,5 +85,10 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('projects', ProjectController::class);
     Route::resource('services', AdminServiceController::class);
     Route::resource('team', TeamMemberController::class)->parameters(['team' => 'teamMember']);
+    Route::resource('insights', AdminInsightController::class);
+    Route::get('/media', [MediaLibraryController::class, 'index'])->name('media.index');
+    Route::post('/media', [MediaLibraryController::class, 'store'])->name('media.store');
+    Route::get('/media/download/{path}', [MediaLibraryController::class, 'download'])->where('path', '.*')->name('media.download');
+    Route::delete('/media/{path}', [MediaLibraryController::class, 'destroy'])->where('path', '.*')->name('media.destroy');
     Route::get('/{module}', [PlaceholderController::class, 'show'])->name('placeholder');
 });

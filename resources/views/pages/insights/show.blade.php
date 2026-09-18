@@ -18,7 +18,11 @@
                 <time datetime="{{ $article['date'] }}">{{ \Illuminate\Support\Carbon::parse($article['date'])->format('d F Y') }}</time>
             </div>
 
-            <div class="mt-8 aspect-[16/9] rounded-2xl bg-gradient-to-br from-navy to-charcoal"></div>
+            <div class="mt-8 aspect-video rounded-2xl bg-linear-to-br from-navy to-charcoal">
+                @if (!empty($article['image']))
+                    <img src="{{ $article['image'] }}" alt="{{ $article['title'] }}" class="h-full w-full rounded-2xl object-cover">
+                @endif
+            </div>
 
             <div class="prose-nexora mt-10 space-y-5">
                 @foreach ($article['body'] as $block)
@@ -44,7 +48,11 @@
             <div class="mt-8 grid gap-6 lg:grid-cols-3">
                 @foreach ($related as $relatedSlug => $relatedArticle)
                     <a href="{{ route('insights.show', $relatedSlug) }}" class="card-outline flex flex-col overflow-hidden bg-white">
-                        <div class="aspect-[16/9] bg-gradient-to-br from-navy to-charcoal"></div>
+                        <div class="aspect-video bg-linear-to-br from-navy to-charcoal">
+                            @if (!empty($relatedArticle['image']))
+                                <img src="{{ $relatedArticle['image'] }}" alt="{{ $relatedArticle['title'] }}" class="h-full w-full object-cover">
+                            @endif
+                        </div>
                         <div class="flex flex-1 flex-col p-6">
                             <span class="text-xs font-semibold uppercase tracking-wide text-accent">{{ $relatedArticle['category'] }}</span>
                             <span class="mt-2 text-sm font-semibold text-navy">{{ $relatedArticle['title'] }}</span>

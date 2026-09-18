@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Client;
+use App\Models\Insight;
 use App\Models\Project;
 use App\Models\Service;
 use App\Models\TeamMember;
@@ -94,6 +95,27 @@ class DatabaseSeeder extends Seeder
                     'expertise' => $member['expertise'],
                     'sort_order' => $sortOrder,
                     'is_active' => true,
+                ]
+            );
+        }
+
+        foreach ($serviceContent['insights'] as $slug => $insight) {
+            $body = collect($insight['body'])->map(function (array $block): string {
+                return $block['type'] === 'list'
+                    ? implode("\n", $block['items'])
+                    : $block['text'];
+            })->implode("\n\n");
+
+            Insight::firstOrCreate(
+                ['slug' => $slug],
+                [
+                    'category' => $insight['category'],
+                    'title' => $insight['title'],
+                    'excerpt' => $insight['excerpt'],
+                    'author' => $insight['author'],
+                    'published_at' => $insight['date'],
+                    'body' => $body,
+                    'is_published' => true,
                 ]
             );
         }

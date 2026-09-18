@@ -2,9 +2,11 @@
 
 namespace App\Support;
 
+use App\Models\Insight;
 use App\Models\Service;
 use App\Models\TeamMember;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 
 class SiteContent
 {
@@ -56,7 +58,27 @@ class SiteContent
      */
     public static function insights(): array
     {
-        return __('content.insights');
+        $content = __('content.insights');
+
+        if (! Schema::hasTable('insights')) {
+            return $content;
+        }
+
+        $insights = Insight::published()->orderByDesc('published_at')->orderByDesc('id')->get()->keyBy('slug');
+
+        return collect($content)
+            ->filter(fn (array $item, string $slug): bool => $insights->has($slug))
+            ->map(function (array $item, string $slug) use ($insights): array {
+                $insight = $insights->get($slug);
+                $image = $insight->cover_image ? Storage::disk('public')->url($insight->cover_image) : null;
+
+                if (app()->getLocale() !== 'en') {
+                    return [...$item, 'image' => $image];
+                }
+
+                return [...$item, 'category' => $insight->category, 'title' => $insight->title, 'excerpt' => $insight->excerpt, 'author' => $insight->author, 'date' => $insight->published_at?->format('Y-m-d') ?? $item['date'], 'body' => $insight->body ? [['type' => 'p', 'text' => $insight->body]] : $item['body'], 'image' => $image];
+            })
+            ->all();
     }
 
     public static function team(): array

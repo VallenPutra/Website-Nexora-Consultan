@@ -20,8 +20,8 @@
             ['label' => 'Team', 'icon' => 'team', 'href' => route('admin.team.index'), 'active' => request()->routeIs('admin.team.*')],
         ],
         'CONTENT' => [
-            ['label' => 'Insights', 'icon' => 'insights', 'href' => route('admin.placeholder', 'insights'), 'active' => $isActive(null, 'insights')],
-            ['label' => 'Media Library', 'icon' => 'media', 'href' => route('admin.placeholder', 'media-library'), 'active' => $isActive(null, 'media-library')],
+            ['label' => 'Insights', 'icon' => 'insights', 'href' => route('admin.insights.index'), 'active' => request()->routeIs('admin.insights.*')],
+            ['label' => 'Media Library', 'icon' => 'media', 'href' => route('admin.media.index'), 'active' => request()->routeIs('admin.media.*')],
         ],
         'COMMUNICATION' => [
             ['label' => 'Consultation Requests', 'icon' => 'requests', 'href' => route('admin.placeholder', 'consultation-requests'), 'active' => $isActive(null, 'consultation-requests')],

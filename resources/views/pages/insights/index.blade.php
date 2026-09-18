@@ -18,7 +18,11 @@
         <section class="section-py">
             <div class="container-nexora">
                 <a href="{{ route('insights.show', $featuredSlug) }}" class="card-outline grid gap-0 overflow-hidden lg:grid-cols-2">
-                    <div class="aspect-[16/9] bg-gradient-to-br from-navy to-charcoal lg:aspect-auto"></div>
+                    <div class="aspect-video bg-linear-to-br from-navy to-charcoal lg:aspect-auto">
+                        @if (!empty($featured['image']))
+                            <img src="{{ $featured['image'] }}" alt="{{ $featured['title'] }}" class="h-full w-full object-cover">
+                        @endif
+                    </div>
                     <div class="flex flex-col justify-center p-8">
                         <span class="eyebrow">{{ __('site.pages.insights.featured') }}</span>
                         <h2 class="mt-2 text-xl font-bold text-navy sm:text-2xl">{{ $featured['title'] }}</h2>
@@ -57,7 +61,11 @@
                 <div class="mt-10 grid gap-6 lg:grid-cols-3">
                     @foreach ($articles as $slug => $article)
                         <a href="{{ route('insights.show', $slug) }}" class="card-outline flex flex-col overflow-hidden">
-                            <div class="aspect-[16/9] bg-gradient-to-br from-navy to-charcoal"></div>
+                            <div class="aspect-video bg-linear-to-br from-navy to-charcoal">
+                                @if (!empty($article['image']))
+                                    <img src="{{ $article['image'] }}" alt="{{ $article['title'] }}" class="h-full w-full object-cover">
+                                @endif
+                            </div>
                             <div class="flex flex-1 flex-col p-6">
                                 <span class="text-xs font-semibold uppercase tracking-wide text-accent">{{ $article['category'] }}</span>
                                 <span class="mt-2 text-base font-semibold text-navy">{{ $article['title'] }}</span>
