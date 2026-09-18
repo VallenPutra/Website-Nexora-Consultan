@@ -1,0 +1,75 @@
+@import './app.css';
+
+@layer components {
+    /* Sidebar */
+    .admin-sidebar-link {
+        @apply flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition-colors duration-150 hover:bg-white/5 hover:text-white;
+    }
+
+    .admin-sidebar-link[data-active='true'] {
+        @apply bg-accent/15 text-accent;
+    }
+
+    .admin-sidebar-section-label {
+        @apply px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/35;
+    }
+
+    /* Cards & surfaces */
+    .admin-card {
+        @apply rounded-xl border border-navy/10 bg-white;
+    }
+
+    .admin-stat-card {
+        @apply flex flex-col gap-3 rounded-xl border border-navy/10 bg-white p-5;
+    }
+
+    /* Status badges — never rely on color alone, always paired with text */
+    .admin-badge {
+        @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold;
+    }
+
+    .admin-badge-neutral { @apply bg-surface text-charcoal; }
+    .admin-badge-info { @apply bg-blue-50 text-blue-700; }
+    .admin-badge-success { @apply bg-emerald-50 text-emerald-700; }
+    .admin-badge-warning { @apply bg-accent-soft text-amber-700; }
+    .admin-badge-danger { @apply bg-red-50 text-red-700; }
+
+    /* Progress bar */
+    .admin-progress-track {
+        @apply h-2 w-full overflow-hidden rounded-full bg-surface;
+    }
+
+    .admin-progress-fill {
+        @apply h-full rounded-full bg-accent transition-all duration-300;
+    }
+
+    /* Buttons scoped to admin (kept separate from public btn-* so public styling can't drift) */
+    .admin-btn-primary {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors duration-150 bg-navy text-white hover:bg-accent hover:text-navy;
+    }
+
+    .admin-btn-secondary {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors duration-150 border border-navy/15 bg-white text-navy hover:border-accent hover:text-accent;
+    }
+}
+
+/* Collapsed sidebar state (desktop only), toggled via [data-admin-shell].admin-collapsed.
+   Kept as plain, unlayered CSS so it reliably overrides the Tailwind utility
+   classes on the sidebar regardless of Tailwind's layer ordering. */
+@media (min-width: 1024px) {
+    [data-admin-shell].admin-collapsed [data-admin-sidebar] {
+        width: 76px;
+    }
+
+    [data-admin-shell].admin-collapsed .admin-sidebar-label-text {
+        display: none;
+    }
+
+    [data-admin-shell].admin-collapsed .admin-sidebar-link {
+        justify-content: center;
+    }
+
+    [data-admin-shell].admin-collapsed .admin-sidebar-brand {
+        align-items: center;
+    }
+}

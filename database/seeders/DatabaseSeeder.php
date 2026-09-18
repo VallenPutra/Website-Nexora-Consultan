@@ -15,11 +15,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Default NEXORA admin account for local/dev use.
+        // firstOrCreate() so re-running `php artisan db:seed` is safe and
+        // won't error out or duplicate the account.
+        //
+        // Login with:
+        //   email:    admin@nexora.test
+        //   password: password
+        //
+        // Change this password immediately if this is ever run anywhere
+        // other than local development.
+        User::firstOrCreate(
+            ['email' => 'admin@nexora.test'],
+            [
+                'name' => 'Vallen',
+                'password' => 'password', // hashed automatically via the model's 'hashed' cast
+                'email_verified_at' => now(),
+            ]
+        );
     }
 }

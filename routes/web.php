@@ -38,3 +38,35 @@ Route::get('/company/partners', [CompanyController::class, 'partners'])->name('c
 // Contact
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+
+/*
+|--------------------------------------------------------------------------
+| Authentication
+|--------------------------------------------------------------------------
+| Minimal, hand-rolled login/register (no Breeze/Fortify/Jetstream) so the
+| styling matches NEXORA's own design system instead of a generic scaffold.
+*/
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'create'])->name('register');
+    Route::post('/register', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'store']);
+
+    Route::get('/login', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('/login', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'store'])
+        ->middleware('throttle:5,1');
+});
+
+Route::post('/logout', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('logout');
+
+/*
+|--------------------------------------------------------------------------
+| Admin dashboard
+|--------------------------------------------------------------------------
+| Now protected by the 'auth' middleware — unauthenticated visitors are
+| redirected to /login automatically.
+*/
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/{module}', [\App\Http\Controllers\Admin\PlaceholderController::class, 'show'])->name('placeholder');
+});
