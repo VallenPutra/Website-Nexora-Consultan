@@ -24,8 +24,7 @@
             ['label' => 'Media Library', 'icon' => 'media', 'href' => route('admin.media.index'), 'active' => request()->routeIs('admin.media.*')],
         ],
         'COMMUNICATION' => [
-            ['label' => 'Consultation Requests', 'icon' => 'requests', 'href' => route('admin.placeholder', 'consultation-requests'), 'active' => $isActive(null, 'consultation-requests')],
-            ['label' => 'Messages', 'icon' => 'messages', 'href' => route('admin.placeholder', 'messages'), 'active' => $isActive(null, 'messages')],
+            ['label' => 'Consultation Requests', 'icon' => 'requests', 'href' => route('admin.consultation-requests.index'), 'active' => request()->routeIs('admin.consultation-requests.*')],
         ],
         'REPORTS' => [
             ['label' => 'Reports', 'icon' => 'reports', 'href' => route('admin.placeholder', 'reports'), 'active' => $isActive(null, 'reports')],

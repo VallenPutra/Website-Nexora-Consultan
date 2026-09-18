@@ -196,17 +196,17 @@
             <div class="admin-card p-5 lg:col-span-2">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-base font-semibold text-navy">Recent Consultation Requests</h3>
-                    <a href="{{ route('admin.placeholder', 'consultation-requests') }}" class="text-sm font-semibold text-accent hover:text-amber-600">View All Requests →</a>
+                    <a href="{{ route('admin.consultation-requests.index') }}" class="text-sm font-semibold text-accent hover:text-amber-600">View All Requests →</a>
                 </div>
                 <ul class="divide-y divide-navy/5">
-                    @foreach ($requests as $req)
+                    @forelse ($requests as $req)
                         <li class="flex items-center justify-between gap-3 py-3">
                             <div class="min-w-0 flex items-center gap-3">
                                 <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-surface text-navy text-sm font-semibold">
                                     {{ strtoupper(substr($req['name'], 0, 1)) }}
                                 </span>
                                 <div class="min-w-0">
-                                    <p class="text-sm font-medium text-navy truncate">{{ $req['name'] }}</p>
+                                    <p class="text-sm font-medium text-navy truncate"><a href="{{ route('admin.consultation-requests.show', $req['id']) }}" class="hover:text-accent">{{ $req['name'] }}</a></p>
                                     <p class="text-xs text-muted truncate">{{ $req['company'] }} &middot; {{ $req['service'] }}</p>
                                 </div>
                             </div>
@@ -215,7 +215,9 @@
                                 <p class="text-xs text-muted mt-1">{{ $req['date'] }}</p>
                             </div>
                         </li>
-                    @endforeach
+                    @empty
+                        <li class="py-6 text-center text-sm text-muted">No consultation requests yet.</li>
+                    @endforelse
                 </ul>
             </div>
 

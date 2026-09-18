@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use App\Models\ConsultationRequest;
 use App\Models\Insight;
 use App\Models\Project;
 use App\Models\Service;
@@ -68,6 +69,20 @@ class DashboardController extends Controller
             ->limit(4)
             ->get();
 
+        $requests = ConsultationRequest::query()
+            ->latest()
+            ->limit(4)
+            ->get()
+            ->map(fn (ConsultationRequest $consultationRequest): array => [
+                'id' => $consultationRequest->id,
+                'name' => $consultationRequest->name,
+                'company' => $consultationRequest->company ?: 'Individual client',
+                'service' => $consultationRequest->service,
+                'date' => $consultationRequest->created_at->diffForHumans(),
+                'status' => ucwords(str_replace('_', ' ', $consultationRequest->status)),
+            ])
+            ->all();
+
         return view('admin.dashboard', [
             'adminName' => $adminName,
             'today' => now(),
@@ -75,7 +90,7 @@ class DashboardController extends Controller
             'stats' => $stats,
             'projects' => $projects,
             'revenue' => AdminDemoData::revenueByMonth(),
-            'requests' => AdminDemoData::consultationRequests(),
+            'requests' => $requests,
             'activity' => AdminDemoData::recentActivity(),
             'deadlines' => $deadlines,
             'contentStats' => $contentStats,

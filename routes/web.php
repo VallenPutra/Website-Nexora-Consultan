@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\ConsultationMessageController;
+use App\Http\Controllers\Admin\ConsultationRequestController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InsightController as AdminInsightController;
 use App\Http\Controllers\Admin\MediaLibraryController;
@@ -11,6 +13,7 @@ use App\Http\Controllers\Admin\TeamMemberController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ConsultationChatController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IndustryController;
@@ -51,6 +54,9 @@ Route::get('/company/partners', [CompanyController::class, 'partners'])->name('c
 // Contact
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+Route::post('/consultation-chat/start', [ConsultationChatController::class, 'start'])->name('consultation-chat.start');
+Route::get('/consultation-chat/{token}/messages', [ConsultationChatController::class, 'messages'])->name('consultation-chat.messages');
+Route::post('/consultation-chat/{token}/messages', [ConsultationChatController::class, 'send'])->name('consultation-chat.send');
 
 /*
 |--------------------------------------------------------------------------
@@ -90,5 +96,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::post('/media', [MediaLibraryController::class, 'store'])->name('media.store');
     Route::get('/media/download/{path}', [MediaLibraryController::class, 'download'])->where('path', '.*')->name('media.download');
     Route::delete('/media/{path}', [MediaLibraryController::class, 'destroy'])->where('path', '.*')->name('media.destroy');
+    Route::resource('consultation-requests', ConsultationRequestController::class)->only(['index', 'show', 'update', 'destroy']);
+    Route::post('/consultation-requests/{consultationRequest}/messages', [ConsultationMessageController::class, 'store'])->name('consultation-requests.messages.store');
     Route::get('/{module}', [PlaceholderController::class, 'show'])->name('placeholder');
 });

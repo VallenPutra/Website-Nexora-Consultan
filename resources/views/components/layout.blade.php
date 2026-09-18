@@ -7,6 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title }} | NEXORA IT Consulting</title>
     <meta name="description" content="{{ $description }}">
     <meta name="theme-color" content="#171a2b">
@@ -26,5 +27,6 @@
     </main>
 
     <x-footer />
+    <x-consultation-chat />
 </body>
 </html>

@@ -13,10 +13,10 @@
                     {{ __('site.pages.contact.intro') }}
                 </p>
 
-                @if (session('demoSubmitted'))
+                @if (session('submitted'))
                     <div class="mt-6 rounded-xl border border-accent/40 bg-accent-soft p-4 text-sm text-navy">
-                        <strong class="font-semibold">{{ __('site.pages.contact.demo_title') }}</strong>
-                        {{ __('site.pages.contact.demo_body') }}
+                        <strong class="font-semibold">{{ __('site.pages.contact.success_title') }}</strong>
+                        {{ __('site.pages.contact.success_body') }}
                     </div>
                 @endif
 

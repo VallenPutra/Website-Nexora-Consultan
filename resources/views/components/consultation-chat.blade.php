@@ -1,0 +1,9 @@
+<div data-consultation-chat class="fixed bottom-5 right-5 z-40 w-[min(22rem,calc(100vw-2rem))]">
+    <button type="button" data-chat-toggle class="ml-auto flex items-center gap-2 rounded-full bg-navy px-4 py-3 text-sm font-semibold text-white shadow-lg hover:bg-accent hover:text-navy"><span class="h-2 w-2 rounded-full bg-emerald-400"></span> Consult directly</button>
+    <div data-chat-panel class="mt-3 hidden overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-2xl">
+        <div class="flex items-center justify-between bg-navy px-4 py-3 text-white"><div><p class="text-sm font-semibold">Live Consultation</p><p class="text-xs text-white/60">Our team will reply here</p></div><button type="button" data-chat-close class="text-white/70 hover:text-white" aria-label="Close chat">&times;</button></div>
+        <div data-chat-messages class="flex max-h-72 min-h-24 flex-col gap-2 overflow-y-auto p-4 text-sm"></div>
+        <form data-chat-start-form class="space-y-3 border-t border-navy/10 p-4"><input name="name" required placeholder="Your name" class="w-full rounded-lg border border-navy/15 px-3 py-2 text-sm focus:border-accent focus:outline-none"><input name="email" type="email" required placeholder="Email address" class="w-full rounded-lg border border-navy/15 px-3 py-2 text-sm focus:border-accent focus:outline-none"><textarea name="message" required rows="3" placeholder="How can we help?" class="w-full rounded-lg border border-navy/15 px-3 py-2 text-sm focus:border-accent focus:outline-none"></textarea><button class="btn-primary w-full" type="submit">Start consultation</button></form>
+        <form data-chat-reply-form class="hidden gap-2 border-t border-navy/10 p-4"><input name="body" required placeholder="Write a message..." class="min-w-0 flex-1 rounded-lg border border-navy/15 px-3 py-2 text-sm focus:border-accent focus:outline-none"><button class="btn-primary px-3" type="submit">Send</button></form>
+    </div>
+</div>

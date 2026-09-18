@@ -146,6 +146,8 @@ return [
             'intro' => 'Tell us a little about your business and what you\'re trying to solve. A member of our team will get back to you within one business day.',
             'demo_title' => 'This is a demo form.',
             'demo_body' => 'Your message was validated successfully, but this site is not yet connected to an email or CRM backend, so nothing was actually sent. Once the backend is wired up, submissions here will reach our team directly.',
+            'success_title' => 'Request received.',
+            'success_body' => 'Thank you. Our team has received your consultation request and will get back to you within one business day.',
             'errors' => 'Please check the highlighted fields below and try again.',
             'name' => 'Full Name',
             'email' => 'Email',
