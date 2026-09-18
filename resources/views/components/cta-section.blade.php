@@ -1,8 +1,14 @@
 @props([
-    'title' => "Let's build your next digital solution",
-    'description' => 'Tell us about your challenge and discover how technology can help your business grow.',
-    'buttonLabel' => 'Contact Our Team',
+    'title' => null,
+    'description' => null,
+    'buttonLabel' => null,
 ])
+
+@php
+    $title ??= __('site.cta.title');
+    $description ??= __('site.cta.description');
+    $buttonLabel ??= __('site.cta.button');
+@endphp
 
 <section class="section-py bg-navy">
     <div class="container-nexora flex flex-col items-center gap-6 text-center">

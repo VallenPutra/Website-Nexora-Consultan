@@ -1,15 +1,22 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PlaceholderController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\InsightController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SolutionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/locale/{locale}', [LocaleController::class, 'switch'])->name('locale.switch');
 
 // Solutions
 Route::get('/solutions', [SolutionController::class, 'index'])->name('solutions.index');
@@ -47,15 +54,15 @@ Route::post('/contact', [ContactController::class, 'submit'])->name('contact.sub
 | styling matches NEXORA's own design system instead of a generic scaffold.
 */
 Route::middleware('guest')->group(function () {
-    Route::get('/register', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'create'])->name('register');
-    Route::post('/register', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'store']);
+    Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('/register', [RegisteredUserController::class, 'store']);
 
-    Route::get('/login', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'create'])->name('login');
-    Route::post('/login', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'store'])
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('/login', [AuthenticatedSessionController::class, 'store'])
         ->middleware('throttle:5,1');
 });
 
-Route::post('/logout', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
@@ -67,6 +74,6 @@ Route::post('/logout', [\App\Http\Controllers\Auth\AuthenticatedSessionControlle
 | redirected to /login automatically.
 */
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
-    Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/{module}', [\App\Http\Controllers\Admin\PlaceholderController::class, 'show'])->name('placeholder');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/{module}', [PlaceholderController::class, 'show'])->name('placeholder');
 });
