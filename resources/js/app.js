@@ -42,6 +42,7 @@ function initConsultationChat() {
     const startForm = root.querySelector("[data-chat-start-form]");
     const replyForm = root.querySelector("[data-chat-reply-form]");
     let token = window.localStorage.getItem("nexora_chat_token");
+    let pollingInterval;
 
     const render = (items) => {
         messages.innerHTML = items
@@ -56,6 +57,12 @@ function initConsultationChat() {
         if (!token) return;
         const response = await fetch(`/consultation-chat/${token}/messages`);
         if (response.ok) render((await response.json()).messages);
+    };
+    const startPolling = () => {
+        if (!token || pollingInterval) return;
+
+        load();
+        pollingInterval = window.setInterval(load, 5000);
     };
     const escapeHtml = (value) =>
         value.replace(
@@ -96,6 +103,7 @@ function initConsultationChat() {
         startForm.classList.add("hidden");
         replyForm.classList.remove("hidden");
         render(data.messages);
+        startPolling();
     });
     replyForm.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -117,8 +125,7 @@ function initConsultationChat() {
     if (token) {
         startForm.classList.add("hidden");
         replyForm.classList.remove("hidden");
-        load();
-        window.setInterval(load, 5000);
+        startPolling();
     }
 }
 
