@@ -44,19 +44,44 @@ function initConsultationChat() {
     let token = window.localStorage.getItem("nexora_chat_token");
     let pollingInterval;
 
-    const render = (items) => {
+    const render = (items, handlerName = null, isTyping = false, notice = null) => {
         messages.innerHTML = items
             .map(
                 (item) =>
                     `<div class="max-w-[85%] rounded-lg px-3 py-2 ${item.sender === "visitor" ? "self-end bg-navy text-white" : "self-start bg-surface text-charcoal"}"><p>${escapeHtml(item.body)}</p><span class="mt-1 block text-[10px] opacity-60">${item.time}</span></div>`,
             )
             .join("");
+        if (notice) {
+            messages.insertAdjacentHTML(
+                "afterbegin",
+                '<div class="mb-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-center text-xs leading-relaxed text-amber-800">' +
+                    escapeHtml(notice) +
+                    "</div>",
+            );
+        }
+        if (handlerName) {
+            messages.insertAdjacentHTML(
+                "afterbegin",
+                '<div class="text-center text-xs text-muted">Chat ini sedang ditangani oleh <span class="font-semibold text-navy">' +
+                    escapeHtml(handlerName) +
+                    "</span></div>",
+            );
+        }
+        if (isTyping) {
+            messages.insertAdjacentHTML(
+                "beforeend",
+                '<div class="flex items-center gap-1 self-start rounded-lg bg-surface px-3 py-2 text-xs text-muted"><span>Admin sedang mengetik</span><span class="flex gap-0.5"><span class="animate-bounce">.</span><span class="animate-bounce [animation-delay:150ms]">.</span><span class="animate-bounce [animation-delay:300ms]">.</span></span></div>',
+            );
+        }
         messages.scrollTop = messages.scrollHeight;
     };
     const load = async () => {
         if (!token) return;
         const response = await fetch(`/consultation-chat/${token}/messages`);
-        if (response.ok) render((await response.json()).messages);
+        if (response.ok) {
+            const data = await response.json();
+            render(data.messages, data.handler_name, data.is_typing, data.notice);
+        }
     };
     const startPolling = () => {
         if (!token || pollingInterval) return;
@@ -102,7 +127,7 @@ function initConsultationChat() {
         window.localStorage.setItem("nexora_chat_token", token);
         startForm.classList.add("hidden");
         replyForm.classList.remove("hidden");
-        render(data.messages);
+        render(data.messages, data.handler_name, data.is_typing, data.notice);
         startPolling();
     });
     replyForm.addEventListener("submit", async (event) => {

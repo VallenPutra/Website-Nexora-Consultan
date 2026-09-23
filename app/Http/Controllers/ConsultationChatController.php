@@ -7,6 +7,8 @@ use App\Models\ConsultationMessage;
 use App\Models\ConsultationRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class ConsultationChatController extends Controller
@@ -24,14 +26,14 @@ class ConsultationChatController extends Controller
         ]);
         $message = $consultation->chatMessages()->create(['sender_type' => 'visitor', 'body' => $request->validated('message')]);
 
-        return response()->json(['token' => $consultation->chat_token, 'messages' => [$this->formatMessage($message)]]);
+        return response()->json(['token' => $consultation->chat_token, ...$this->chatState($consultation)]);
     }
 
     public function messages(string $token): JsonResponse
     {
         $consultation = ConsultationRequest::where('chat_token', $token)->firstOrFail();
 
-        return response()->json(['messages' => $consultation->chatMessages()->oldest()->get()->map(fn (ConsultationMessage $message): array => $this->formatMessage($message))]);
+        return response()->json($this->chatState($consultation));
     }
 
     public function send(Request $request, string $token): JsonResponse
@@ -50,5 +52,23 @@ class ConsultationChatController extends Controller
     private function formatMessage(ConsultationMessage $message): array
     {
         return ['id' => $message->id, 'sender' => $message->sender_type, 'body' => $message->body, 'time' => $message->created_at->format('H:i')];
+    }
+
+    /**
+     * @return array{messages: Collection<int, array{id: int, sender: string, body: string, time: string}>, handler_name: ?string, is_typing: bool, notice: string}
+     */
+    private function chatState(ConsultationRequest $consultation): array
+    {
+        return [
+            'messages' => $consultation->chatMessages()->oldest()->get()->map(fn (ConsultationMessage $message): array => $this->formatMessage($message)),
+            'handler_name' => $consultation->handled_by,
+            'is_typing' => Cache::has($this->typingCacheKey($consultation->chat_token)),
+            'notice' => 'Jika Admin Tidak Membalas Pesan Anda lebih dari 1 hari maka pesan Anda akan dibalas melalui email.',
+        ];
+    }
+
+    private function typingCacheKey(string $token): string
+    {
+        return 'consultation-chat-typing:'.$token;
     }
 }

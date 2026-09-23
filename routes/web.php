@@ -102,6 +102,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::delete('/media/{path}', [MediaLibraryController::class, 'destroy'])->where('path', '.*')->name('media.destroy');
     Route::resource('consultation-requests', ConsultationRequestController::class)->only(['index', 'show', 'update', 'destroy']);
     Route::post('/consultation-requests/{consultationRequest}/messages', [ConsultationMessageController::class, 'store'])->name('consultation-requests.messages.store');
+    Route::post('/consultation-requests/{consultationRequest}/typing', [ConsultationMessageController::class, 'typing'])->name('consultation-requests.typing');
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export');
     Route::resource('revenue', RevenueController::class)->parameters(['revenue' => 'revenue']);

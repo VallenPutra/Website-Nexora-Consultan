@@ -5,7 +5,49 @@ document.addEventListener('DOMContentLoaded', () => {
     initSidebarDrawer();
     initSidebarCollapse();
     initProfileDropdown();
+    initConsultationTyping();
 });
+
+function initConsultationTyping() {
+    const chat = document.querySelector("[data-admin-consultation-chat]");
+    const input = chat?.querySelector("[data-admin-chat-input]");
+    const form = chat?.querySelector("[data-admin-chat-form]");
+    const typingUrl = chat?.dataset.typingUrl;
+
+    if (!chat || !input || !form || !typingUrl) return;
+
+    let stopTypingTimeout;
+    const sendTypingState = (isTyping) => {
+        fetch(typingUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN":
+                    document.querySelector('meta[name="csrf-token"]')
+                        ?.content || "",
+            },
+            body: JSON.stringify({ is_typing: isTyping }),
+        }).catch(() => {});
+    };
+    const stopTyping = () => {
+        window.clearTimeout(stopTypingTimeout);
+        sendTypingState(false);
+    };
+
+    input.addEventListener("input", () => {
+        window.clearTimeout(stopTypingTimeout);
+
+        if (!input.value.trim()) {
+            stopTyping();
+            return;
+        }
+
+        sendTypingState(true);
+        stopTypingTimeout = window.setTimeout(stopTyping, 2500);
+    });
+    input.addEventListener("blur", stopTyping);
+    form.addEventListener("submit", stopTyping);
+}
 
 function initSidebarDrawer() {
     const toggle = document.querySelector('[data-admin-drawer-toggle]');

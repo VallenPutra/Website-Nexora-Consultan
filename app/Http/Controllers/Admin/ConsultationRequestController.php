@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ConsultationRequestUpdateRequest;
 use App\Models\ConsultationRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ConsultationRequestController extends Controller
@@ -48,8 +49,10 @@ class ConsultationRequestController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ConsultationRequest $consultationRequest): View
+    public function show(Request $request, ConsultationRequest $consultationRequest): View
     {
+        $consultationRequest->update(['handled_by' => $request->user()->name]);
+
         return view('admin.consultation-requests.show', ['requestItem' => $consultationRequest]);
     }
 

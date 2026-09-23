@@ -12,7 +12,7 @@ class ConsultationRequest extends Model
     /** @use HasFactory<ConsultationRequestFactory> */
     use HasFactory;
 
-    protected $fillable = ['chat_token', 'name', 'email', 'company', 'phone', 'service', 'budget', 'message', 'status', 'admin_notes'];
+    protected $fillable = ['chat_token', 'name', 'email', 'company', 'phone', 'service', 'budget', 'message', 'status', 'handled_by', 'admin_notes'];
 
     public function chatMessages(): HasMany
     {

@@ -10,6 +10,7 @@
     <title>{{ $title }} | NEXORA IT Consulting Management</title>
     <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#171a2b">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="data:,">
     @vite(['resources/css/admin.css', 'resources/js/admin.js'])
 </head>
