@@ -60,26 +60,71 @@ class ConsultationRequestManagementTest extends TestCase
         $this->assertDatabaseMissing('consultation_requests', ['id' => $requestItem->id]);
     }
 
+    public function test_authenticated_admin_can_retrieve_new_request_notifications(): void
+    {
+        $user = User::factory()->create();
+        $newRequest = ConsultationRequest::factory()->create(['name' => 'Maya Putri']);
+        ConsultationRequest::factory()->create(['status' => 'contacted']);
+
+        $this->actingAs($user)
+            ->getJson(route('admin.notifications.index'))
+            ->assertOk()
+            ->assertJsonPath('count', 1)
+            ->assertJsonPath('notifications.0.id', 'request-'.$newRequest->id)
+            ->assertJsonPath('notifications.0.name', 'Maya Putri');
+    }
+
+    public function test_authenticated_admin_can_retrieve_new_visitor_chat_notifications(): void
+    {
+        $user = User::factory()->create();
+        $requestItem = ConsultationRequest::factory()->create(['status' => 'contacted']);
+        $requestItem->chatMessages()->create(['sender_type' => 'admin', 'body' => 'How can we help?']);
+        $visitorMessage = $requestItem->chatMessages()->create(['sender_type' => 'visitor', 'body' => 'I need help with my website.']);
+
+        $this->actingAs($user)
+            ->getJson(route('admin.notifications.index'))
+            ->assertOk()
+            ->assertJsonPath('count', 1)
+            ->assertJsonPath('notifications.0.id', 'message-'.$visitorMessage->id)
+            ->assertJsonPath('notifications.0.type', 'message');
+    }
+
     public function test_visitor_can_start_a_consultation_chat_and_admin_can_reply(): void
     {
-        $response = $this->postJson(route('consultation-chat.start'), [
-            'name' => 'Maya Visitor',
-            'email' => 'maya@example.com',
+        $visitor = User::factory()->create(['role' => 'user']);
+
+        $response = $this->actingAs($visitor)->postJson(route('consultation-chat.start'), [
             'message' => 'I need a direct consultation.',
         ]);
 
         $response->assertOk()->assertJsonStructure(['token', 'messages']);
         $token = $response->json('token');
         $requestItem = ConsultationRequest::where('chat_token', $token)->firstOrFail();
+        $this->assertSame($visitor->id, $requestItem->user_id);
         $this->assertDatabaseHas('consultation_messages', ['consultation_request_id' => $requestItem->id, 'sender_type' => 'visitor']);
 
         $this->actingAs(User::factory()->create())
             ->post(route('admin.consultation-requests.messages.store', $requestItem), ['body' => 'We can help you directly.'])
             ->assertRedirect(route('admin.consultation-requests.show', $requestItem));
 
-        $this->getJson(route('consultation-chat.messages', $token))
+        $this->actingAs($visitor)
+            ->getJson(route('consultation-chat.current'))
             ->assertOk()
             ->assertJsonCount(2, 'messages');
         $this->assertDatabaseHas('consultation_messages', ['consultation_request_id' => $requestItem->id, 'sender_type' => 'admin']);
+    }
+
+    public function test_repeated_chat_start_requests_reuse_the_active_consultation(): void
+    {
+        $visitor = User::factory()->create(['role' => 'user']);
+        $payload = ['message' => 'I need a direct consultation.'];
+
+        $firstResponse = $this->actingAs($visitor)->postJson(route('consultation-chat.start'), $payload);
+        $secondResponse = $this->actingAs($visitor)->postJson(route('consultation-chat.start'), $payload);
+
+        $firstResponse->assertOk();
+        $secondResponse->assertOk()->assertJsonPath('token', $firstResponse->json('token'));
+        $this->assertSame(1, ConsultationRequest::where('user_id', $visitor->id)->count());
+        $this->assertDatabaseCount('consultation_messages', 1);
     }
 }

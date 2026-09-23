@@ -41,7 +41,15 @@ function initConsultationChat() {
     const messages = root.querySelector("[data-chat-messages]");
     const startForm = root.querySelector("[data-chat-start-form]");
     const replyForm = root.querySelector("[data-chat-reply-form]");
-    let token = window.localStorage.getItem("nexora_chat_token");
+    const startButton = startForm?.querySelector('button[type="submit"]');
+    const isAuthenticated = root.dataset.authenticated === "true";
+    const chatCopy = {
+        handledBy: root.dataset.chatHandledBy || "This chat is being handled by :name",
+        typing: root.dataset.chatTyping || "Admin is typing",
+        start: root.dataset.chatStart || "Start consultation",
+        starting: root.dataset.chatStarting || "Starting...",
+    };
+    let token = null;
     let pollingInterval;
 
     const render = (items, handlerName = null, isTyping = false, notice = null) => {
@@ -62,15 +70,17 @@ function initConsultationChat() {
         if (handlerName) {
             messages.insertAdjacentHTML(
                 "afterbegin",
-                '<div class="text-center text-xs text-muted">Chat ini sedang ditangani oleh <span class="font-semibold text-navy">' +
-                    escapeHtml(handlerName) +
-                    "</span></div>",
+                '<div class="text-center text-xs text-muted">' +
+                    escapeHtml(chatCopy.handledBy.replace(":name", handlerName)) +
+                    "</div>",
             );
         }
         if (isTyping) {
             messages.insertAdjacentHTML(
                 "beforeend",
-                '<div class="flex items-center gap-1 self-start rounded-lg bg-surface px-3 py-2 text-xs text-muted"><span>Admin sedang mengetik</span><span class="flex gap-0.5"><span class="animate-bounce">.</span><span class="animate-bounce [animation-delay:150ms]">.</span><span class="animate-bounce [animation-delay:300ms]">.</span></span></div>',
+                '<div class="flex items-center gap-1 self-start rounded-lg bg-surface px-3 py-2 text-xs text-muted"><span>' +
+                    escapeHtml(chatCopy.typing) +
+                    '</span><span class="flex gap-0.5"><span class="animate-bounce">.</span><span class="animate-bounce [animation-delay:150ms]">.</span><span class="animate-bounce [animation-delay:300ms]">.</span></span></div>',
             );
         }
         messages.scrollTop = messages.scrollHeight;
@@ -109,8 +119,38 @@ function initConsultationChat() {
     root.querySelector("[data-chat-close]").addEventListener("click", () =>
         panel.classList.add("hidden"),
     );
+    if (!isAuthenticated) return;
+
+    const loadCurrent = async () => {
+        const response = await fetch("/consultation-chat/current");
+        if (!response.ok) return;
+
+        const data = await response.json();
+        token = data.token;
+
+        if (!token) {
+            window.localStorage.removeItem("nexora_chat_token");
+            startForm.classList.remove("hidden");
+            replyForm.classList.add("hidden");
+            messages.innerHTML = "";
+            return;
+        }
+
+        window.localStorage.setItem("nexora_chat_token", token);
+        startForm.classList.add("hidden");
+        replyForm.classList.remove("hidden");
+        render(data.messages, data.handler_name, data.is_typing, data.notice);
+        startPolling();
+    };
     startForm.addEventListener("submit", async (event) => {
         event.preventDefault();
+        if (startButton?.disabled) return;
+
+        if (startButton) {
+            startButton.disabled = true;
+            startButton.textContent = chatCopy.starting;
+        }
+
         const response = await fetch("/consultation-chat/start", {
             method: "POST",
             headers: {
@@ -119,9 +159,17 @@ function initConsultationChat() {
                     document.querySelector('meta[name="csrf-token"]')
                         ?.content || "",
             },
-            body: JSON.stringify(Object.fromEntries(new FormData(startForm))),
+            body: JSON.stringify({
+                message: new FormData(startForm).get("message"),
+            }),
         });
-        if (!response.ok) return;
+        if (!response.ok) {
+            if (startButton) {
+                startButton.disabled = false;
+                startButton.textContent = chatCopy.start;
+            }
+            return;
+        }
         const data = await response.json();
         token = data.token;
         window.localStorage.setItem("nexora_chat_token", token);
@@ -147,11 +195,7 @@ function initConsultationChat() {
             load();
         }
     });
-    if (token) {
-        startForm.classList.add("hidden");
-        replyForm.classList.remove("hidden");
-        startPolling();
-    }
+    loadCurrent();
 }
 
 function initMegaMenus() {

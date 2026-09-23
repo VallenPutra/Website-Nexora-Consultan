@@ -21,11 +21,24 @@
     </div>
 
     <div class="ml-auto flex items-center gap-2 sm:gap-3">
-        <button type="button" aria-label="Notifications" class="relative p-2 rounded-lg text-charcoal/70 hover:bg-surface hover:text-navy transition-colors">
+        <div class="relative" data-admin-notifications data-notifications-url="{{ route('admin.notifications.index') }}">
+            <button type="button" data-admin-notifications-toggle aria-label="Notifications" aria-haspopup="true" aria-expanded="false" class="relative p-2 rounded-lg text-charcoal/70 hover:bg-surface hover:text-navy transition-colors">
             <x-admin.icon name="bell" class="w-5 h-5" />
-            <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-accent" aria-hidden="true"></span>
-            <span class="sr-only">You have new notifications</span>
-        </button>
+                <span data-admin-notifications-dot class="hidden absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-accent" aria-hidden="true"></span>
+                <span data-admin-notifications-count class="hidden absolute -right-1 -top-1 min-w-5 rounded-full bg-accent px-1 text-center text-[10px] font-semibold leading-5 text-navy" aria-hidden="true"></span>
+                <span class="sr-only">Open notifications</span>
+            </button>
+
+            <div data-admin-notifications-menu class="hidden absolute right-0 z-40 mt-2 w-80 max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl border border-navy/10 bg-white shadow-xl" role="menu">
+                <div class="flex items-center justify-between border-b border-navy/10 px-4 py-3">
+                    <p class="text-sm font-semibold text-navy">New requests</p>
+                    <span data-admin-notifications-menu-count class="text-xs text-muted">0</span>
+                </div>
+                <div data-admin-notifications-list class="max-h-80 overflow-y-auto p-2">
+                    <p class="px-2 py-4 text-center text-sm text-muted">No new requests.</p>
+                </div>
+            </div>
+        </div>
 
         <a href="{{ route('home') }}" target="_blank" rel="noopener" class="admin-btn-secondary hidden sm:inline-flex !py-2 !px-3.5 text-sm">
             <x-admin.icon name="external" class="w-4 h-4" />

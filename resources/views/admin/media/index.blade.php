@@ -37,7 +37,13 @@
                             @endif
                         </div>
                         <div class="p-4">
-                            <p class="truncate text-sm font-semibold text-navy" title="{{ $file['name'] }}">{{ $file['name'] }}</p>
+                            <form method="POST" action="{{ route('admin.media.rename', ['path' => $file['path']]) }}" class="space-y-2">
+                                @csrf
+                                @method('PATCH')
+                                <label for="media-name-{{ md5($file['path']) }}" class="text-xs font-medium text-muted">File name</label>
+                                <input id="media-name-{{ md5($file['path']) }}" name="name" value="{{ $file['name'] }}" required class="w-full rounded-lg border border-navy/15 px-3 py-2 text-sm text-navy focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent">
+                                <button type="submit" class="text-sm font-semibold text-accent hover:text-amber-600">Save name</button>
+                            </form>
                             <p class="mt-1 text-xs text-muted">{{ strtoupper($file['mime']) }} &middot; {{ number_format($file['size'] / 1024, 1) }} KB</p>
                             <div class="mt-4 flex items-center justify-between gap-3">
                                 <a href="{{ route('admin.media.download', ['path' => $file['path']]) }}" class="text-sm font-semibold text-accent hover:text-amber-600">Download</a>

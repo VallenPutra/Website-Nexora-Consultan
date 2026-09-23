@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ConsultationRequestController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InsightController as AdminInsightController;
 use App\Http\Controllers\Admin\MediaLibraryController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\PlaceholderController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ReportController;
@@ -58,9 +59,12 @@ Route::get('/company/partners', [CompanyController::class, 'partners'])->name('c
 // Contact
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
-Route::post('/consultation-chat/start', [ConsultationChatController::class, 'start'])->name('consultation-chat.start');
-Route::get('/consultation-chat/{token}/messages', [ConsultationChatController::class, 'messages'])->name('consultation-chat.messages');
-Route::post('/consultation-chat/{token}/messages', [ConsultationChatController::class, 'send'])->name('consultation-chat.send');
+Route::middleware('auth')->group(function () {
+    Route::post('/consultation-chat/start', [ConsultationChatController::class, 'start'])->name('consultation-chat.start');
+    Route::get('/consultation-chat/current', [ConsultationChatController::class, 'current'])->name('consultation-chat.current');
+    Route::get('/consultation-chat/{token}/messages', [ConsultationChatController::class, 'messages'])->name('consultation-chat.messages');
+    Route::post('/consultation-chat/{token}/messages', [ConsultationChatController::class, 'send'])->name('consultation-chat.send');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -99,8 +103,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/media', [MediaLibraryController::class, 'index'])->name('media.index');
     Route::post('/media', [MediaLibraryController::class, 'store'])->name('media.store');
     Route::get('/media/download/{path}', [MediaLibraryController::class, 'download'])->where('path', '.*')->name('media.download');
+    Route::patch('/media/{path}/rename', [MediaLibraryController::class, 'rename'])->where('path', '.*')->name('media.rename');
     Route::delete('/media/{path}', [MediaLibraryController::class, 'destroy'])->where('path', '.*')->name('media.destroy');
     Route::resource('consultation-requests', ConsultationRequestController::class)->only(['index', 'show', 'update', 'destroy']);
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/consultation-requests/{consultationRequest}/messages', [ConsultationMessageController::class, 'store'])->name('consultation-requests.messages.store');
     Route::post('/consultation-requests/{consultationRequest}/typing', [ConsultationMessageController::class, 'typing'])->name('consultation-requests.typing');
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');

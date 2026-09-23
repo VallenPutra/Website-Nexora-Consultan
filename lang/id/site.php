@@ -33,6 +33,25 @@ return [
         'logout' => 'Keluar',
     ],
 
+    'chat' => [
+        'toggle' => 'Konsultasi langsung',
+        'title' => 'Konsultasi Langsung',
+        'subtitle' => 'Tim kami akan membalas di sini',
+        'login_title' => 'Masuk untuk memulai chat',
+        'login_description' => 'Silakan masuk atau buat akun terlebih dahulu agar riwayat chat tersimpan dan dapat diakses dari perangkat lain.',
+        'login' => 'Masuk',
+        'register' => 'Daftar',
+        'greeting' => 'Halo, :name. Ceritakan kebutuhan Anda.',
+        'message_placeholder' => 'Bagaimana kami dapat membantu?',
+        'start' => 'Mulai konsultasi',
+        'starting' => 'Memulai...',
+        'write_placeholder' => 'Tulis pesan...',
+        'send' => 'Kirim',
+        'handled_by' => 'Chat ini sedang ditangani oleh :name',
+        'typing' => 'Admin sedang mengetik',
+        'notice' => 'Jika Admin Tidak Membalas Pesan Anda lebih dari 1 hari maka pesan Anda akan dibalas melalui email.',
+    ],
+
     'breadcrumb' => [
         'home' => 'Beranda',
         'skip' => 'Lewati ke konten',

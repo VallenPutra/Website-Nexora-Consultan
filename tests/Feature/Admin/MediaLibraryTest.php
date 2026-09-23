@@ -29,6 +29,7 @@ class MediaLibraryTest extends TestCase
 
         $response->assertRedirect(route('admin.media.index'));
         $this->assertCount(1, Storage::disk('public')->files('media'));
+        Storage::disk('public')->assertExists('media/brand-mark.png');
     }
 
     public function test_media_library_rejects_unsupported_files(): void
@@ -56,5 +57,21 @@ class MediaLibraryTest extends TestCase
             ->assertRedirect(route('admin.media.index'));
 
         Storage::disk('public')->assertMissing('media/old-file.pdf');
+    }
+
+    public function test_authenticated_admin_can_rename_a_media_file(): void
+    {
+        Storage::fake('public');
+        Storage::disk('public')->put('media/random-name.jpg', 'demo');
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->patch(route('admin.media.rename', ['path' => 'media/random-name.jpg']), [
+                'name' => 'Transformasi Digital.jpg',
+            ])
+            ->assertRedirect(route('admin.media.index'));
+
+        Storage::disk('public')->assertMissing('media/random-name.jpg');
+        Storage::disk('public')->assertExists('media/Transformasi Digital.jpg');
     }
 }

@@ -33,6 +33,25 @@ return [
         'logout' => 'Log Out',
     ],
 
+    'chat' => [
+        'toggle' => 'Consult directly',
+        'title' => 'Live Consultation',
+        'subtitle' => 'Our team will reply here',
+        'login_title' => 'Login to start chatting',
+        'login_description' => 'Please login or create an account first so your chat history is saved and available on other devices.',
+        'login' => 'Login',
+        'register' => 'Register',
+        'greeting' => 'Hello, :name. Tell us how we can help.',
+        'message_placeholder' => 'How can we help?',
+        'start' => 'Start consultation',
+        'starting' => 'Starting...',
+        'write_placeholder' => 'Write a message...',
+        'send' => 'Send',
+        'handled_by' => 'This chat is being handled by :name',
+        'typing' => 'Admin is typing',
+        'notice' => 'If an admin does not reply to your message within 1 day, we will reply via email.',
+    ],
+
     'breadcrumb' => [
         'home' => 'Home',
         'skip' => 'Skip to content',

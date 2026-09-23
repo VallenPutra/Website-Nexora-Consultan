@@ -23,8 +23,6 @@ class ConsultationChatRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:120'],
-            'email' => ['required', 'email', 'max:180'],
             'message' => ['required', 'string', 'max:3000'],
         ];
     }

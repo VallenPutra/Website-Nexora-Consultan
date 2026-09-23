@@ -117,7 +117,6 @@ class DashboardController extends Controller
         return view('admin.dashboard', [
             'adminName' => $adminName,
             'today' => now(),
-            'isLive' => AdminDemoData::isLive(),
             'stats' => $stats,
             'projects' => $projects,
             'revenue' => $revenue,

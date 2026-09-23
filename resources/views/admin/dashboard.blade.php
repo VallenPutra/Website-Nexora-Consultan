@@ -11,10 +11,6 @@
 
     <div class="mx-auto max-w-7xl space-y-6">
 
-        @unless ($isLive)
-            <x-admin.demo-notice />
-        @endunless
-
         {{-- Greeting --}}
         <div class="flex flex-wrap items-end justify-between gap-4">
             <div>
