@@ -6,7 +6,35 @@ document.addEventListener("DOMContentLoaded", () => {
     initMegaMenus();
     initContactForm();
     initConsultationChat();
+    initPortfolioFilter();
 });
+
+function initPortfolioFilter() {
+    const filters = document.querySelector('[data-portfolio-filters]');
+    const items = document.querySelectorAll('[data-portfolio-item]');
+
+    if (!filters || items.length === 0) return;
+
+    filters.querySelectorAll('[data-portfolio-filter]').forEach((button) => {
+        button.addEventListener('click', () => {
+            const selectedCategory = button.dataset.portfolioFilter;
+
+            filters.querySelectorAll('[data-portfolio-filter]').forEach((filterButton) => {
+                const isSelected = filterButton === button;
+                filterButton.setAttribute('aria-pressed', String(isSelected));
+                filterButton.classList.toggle('bg-accent', isSelected);
+                filterButton.classList.toggle('text-navy', isSelected);
+                filterButton.classList.toggle('bg-surface', !isSelected);
+                filterButton.classList.toggle('text-muted', !isSelected);
+            });
+
+            items.forEach((item) => {
+                const isVisible = selectedCategory === 'all' || item.dataset.portfolioItem === selectedCategory;
+                item.classList.toggle('hidden', !isVisible);
+            });
+        });
+    });
+}
 
 function initMobileMenu() {
     const toggle = document.querySelector("[data-mobile-menu-toggle]");
