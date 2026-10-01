@@ -1,6 +1,7 @@
 <x-layout
-    title="Home"
-    description="NEXORA IT Consulting helps businesses simplify operations, improve efficiency, and grow through reliable digital solutions."
+    title="{{ __('site.home.seo_title') }}"
+    description="{{ __('site.home.seo_description') }}"
+    keywords="Konsultan IT Surabaya, Konsultan TI Pemerintah, IT Governance, IT Audit, Enterprise Architecture, IT Management, Pengembangan Software, Transformasi Digital"
 >
     {{-- HERO --}}
     <section class="relative overflow-hidden bg-white">
@@ -120,7 +121,7 @@
                 :title="__('site.home.services_title')"
                 :description="__('site.home.services_description')"
             />
-            <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+            <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
                 @foreach (['it-consulting', 'web-development', 'erp-odoo', 'cloud-management', 'cybersecurity'] as $slug)
                     @php($item = $services[$slug])
                     <div class="card-outline flex flex-col p-6">
@@ -142,13 +143,35 @@
                 :description="__('site.home.industries_description')"
             />
             <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-                @foreach (['manufacturing', 'healthcare', 'education', 'retail', 'finance'] as $slug)
+                @foreach (['manufacturing', 'healthcare', 'education', 'retail', 'finance', 'government'] as $slug)
                     @php($item = $industries[$slug])
                     <a href="{{ route('industries.show', $slug) }}" class="card-outline flex flex-col p-6">
                         <span class="text-sm font-semibold text-navy">{{ $item['title'] }}</span>
                         <span class="mt-2 flex-1 text-xs text-muted">{{ $item['short'] }}</span>
                         <span class="mt-4 text-sm font-semibold text-accent">{{ __('site.home.learn_more') }} &rarr;</span>
                     </a>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    {{-- PUBLIC SECTOR --}}
+    <section class="section-py bg-navy text-white">
+        <div class="container-nexora grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+            <div>
+                <p class="eyebrow text-accent">{{ __('site.home.public_sector_eyebrow') }}</p>
+                <h2 class="mt-3 text-2xl font-bold sm:text-3xl">{{ __('site.home.public_sector_title') }}</h2>
+                <p class="mt-4 max-w-2xl text-sm leading-6 text-white/70 sm:text-base">
+                    {{ __('site.home.public_sector_description') }}
+                </p>
+                <a href="{{ route('industries.show', 'government') }}" class="btn-accent mt-6">{{ __('site.home.public_sector_cta') }}</a>
+            </div>
+            <div class="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+                @foreach (__('site.home.public_sector_points') as $point)
+                    <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                        <p class="text-sm font-semibold text-white">{{ $point['title'] }}</p>
+                        <p class="mt-1 text-xs leading-5 text-white/60">{{ $point['description'] }}</p>
+                    </div>
                 @endforeach
             </div>
         </div>

@@ -16,6 +16,34 @@
         </div>
     </section>
 
+    @if (isset($service['odoo']))
+        <section class="section-py bg-surface">
+            <div class="container-nexora">
+                <x-section-heading
+                    :eyebrow="$service['odoo']['eyebrow']"
+                    :title="$service['odoo']['heading']"
+                    :description="$service['odoo']['description']"
+                />
+                <div class="mt-10 grid gap-5 sm:grid-cols-2">
+                    @foreach ($service['odoo']['categories'] as $category)
+                        <article id="{{ \Illuminate\Support\Str::slug($category['title']) }}" class="scroll-mt-28 rounded-xl border border-navy/10 bg-white p-6">
+                            <h2 class="text-lg font-semibold text-navy">{{ $category['title'] }}</h2>
+                            <p class="mt-2 text-sm leading-6 text-muted">{{ $category['description'] }}</p>
+                            <ul class="mt-4 grid gap-2 sm:grid-cols-2">
+                                @foreach ($category['modules'] as $module)
+                                    <li class="flex items-center gap-2 text-sm text-charcoal">
+                                        <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-accent"></span>
+                                        {{ $module }}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </article>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
     <section class="section-py">
         <div class="container-nexora grid gap-12 lg:grid-cols-2">
             <div>

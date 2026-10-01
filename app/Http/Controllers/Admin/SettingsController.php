@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\SiteSetting;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
@@ -59,6 +62,25 @@ class SettingsController extends Controller
         $user->update(['password' => $validated['password']]);
 
         return redirect()->route('admin.settings.index')->with('status', 'Password updated successfully.');
+    }
+
+    public function updateLogo(Request $request): RedirectResponse
+    {
+        $validated = $request->validateWithBag('updateLogo', [
+            'logo' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:3072'],
+        ]);
+
+        $logo = $validated['logo'];
+        $path = $logo->storeAs('branding', 'logo-'.Str::uuid().'.'.$logo->extension(), 'public');
+
+        SiteSetting::query()->updateOrCreate(
+            ['key' => 'logo_path'],
+            ['value' => $path],
+        );
+
+        Cache::forget('site.brand.logo_path');
+
+        return redirect()->route('admin.settings.index')->with('status', 'Site logo updated successfully.');
     }
 
     /**

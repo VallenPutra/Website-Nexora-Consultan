@@ -2,9 +2,8 @@
     <div class="container-nexora py-14">
         <div class="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-6">
             <div class="col-span-2">
-                <a href="{{ route('home') }}" class="flex flex-col leading-none text-white">
-                    <span class="text-xl font-bold tracking-tight">NEXORA</span>
-                    <span class="mt-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60">IT Consulting</span>
+                <a href="{{ route('home') }}" class="inline-flex rounded bg-white p-2" aria-label="NIT Nusa Indo Technology">
+                    <img src="{{ app(\App\Support\SiteBrand::class)->logoUrl() }}" alt="NIT Nusa Indo Technology IT Management Consultant" class="h-auto w-56 max-w-full">
                 </a>
                 <p class="mt-4 max-w-xs text-sm text-white/60">
                     {{ __('site.footer.tagline') }} {{ __('site.footer.blurb') }}
@@ -24,20 +23,20 @@
             <div>
                 <p class="text-xs font-semibold uppercase tracking-wide text-white/40">{{ __('site.footer.solutions') }}</p>
                 <ul class="mt-4 space-y-2 text-sm">
-                    <li><a href="{{ route('solutions.show', 'digital-transformation') }}" class="hover:text-accent">Digital Transformation</a></li>
-                    <li><a href="{{ route('solutions.show', 'cloud-solutions') }}" class="hover:text-accent">Cloud Solutions</a></li>
-                    <li><a href="{{ route('solutions.show', 'business-process-automation') }}" class="hover:text-accent">Business Automation</a></li>
-                    <li><a href="{{ route('solutions.show', 'enterprise-software') }}" class="hover:text-accent">Enterprise Software</a></li>
+                    <li><a href="{{ route('home') }}#layanan" class="hover:text-accent">IT Strategy &amp; Blueprint</a></li>
+                    <li><a href="{{ route('home') }}#layanan" class="hover:text-accent">IT Governance &amp; Audit</a></li>
+                    <li><a href="{{ route('home') }}#layanan" class="hover:text-accent">ERP &amp; Odoo</a></li>
+                    <li><a href="{{ route('home') }}#layanan" class="hover:text-accent">Software Development</a></li>
                 </ul>
             </div>
 
             <div>
                 <p class="text-xs font-semibold uppercase tracking-wide text-white/40">{{ __('site.footer.services') }}</p>
                 <ul class="mt-4 space-y-2 text-sm">
-                    <li><a href="{{ route('services.show', 'it-consulting') }}" class="hover:text-accent">IT Consulting</a></li>
-                    <li><a href="{{ route('services.show', 'web-development') }}" class="hover:text-accent">Web Development</a></li>
-                    <li><a href="{{ route('services.show', 'erp-odoo') }}" class="hover:text-accent">ERP &amp; Odoo</a></li>
-                    <li><a href="{{ route('services.show', 'cybersecurity') }}" class="hover:text-accent">Cybersecurity</a></li>
+                    <li><a href="{{ route('home') }}#layanan" class="hover:text-accent">IT Portfolio Management</a></li>
+                    <li><a href="{{ route('home') }}#layanan" class="hover:text-accent">Enterprise Architecture</a></li>
+                    <li><a href="{{ route('home') }}#layanan" class="hover:text-accent">IT Training</a></li>
+                    <li><a href="{{ route('home') }}#layanan" class="hover:text-accent">Multimedia &amp; Development</a></li>
                 </ul>
             </div>
 
@@ -54,15 +53,15 @@
         <div class="mt-12 grid gap-6 border-t border-white/10 pt-8 text-sm text-white/60 sm:grid-cols-2 lg:grid-cols-4">
             <div>
                 <p class="font-semibold text-white/80">{{ __('site.footer.email') }}</p>
-                <a href="mailto:hello@nexoraconsulting.co.id" class="hover:text-accent">hello@nexoraconsulting.co.id</a>
+                <a href="mailto:info@nusaindotech.com" class="hover:text-accent">info@nusaindotech.com</a>
             </div>
             <div>
                 <p class="font-semibold text-white/80">{{ __('site.footer.phone') }}</p>
-                <a href="tel:+622112345678" class="hover:text-accent">+62 21 1234 5678</a>
+                <a href="tel:+6287852461990" class="hover:text-accent">0878 5246 1990</a>
             </div>
             <div>
                 <p class="font-semibold text-white/80">{{ __('site.footer.address') }}</p>
-                <p>Jl. Sudirman No. 88, Surabaya, Indonesia</p>
+                <p>Jl. Penjaringan Sari 1B No. 42, Rungkut, Surabaya 60297, Indonesia</p>
             </div>
             <div>
                 <p class="font-semibold text-white/80">{{ __('site.footer.follow_us') }}</p>
@@ -76,7 +75,7 @@
 
     <div class="border-t border-white/10">
         <div class="container-nexora flex flex-col items-center justify-between gap-2 py-5 text-xs text-white/50 sm:flex-row">
-            <p>&copy; {{ date('Y') }} NEXORA IT CONSULTING. {{ __('site.footer.rights') }}</p>
+            <p>&copy; {{ date('Y') }} NUSA INDO TECHNOLOGY. {{ __('site.footer.rights') }}</p>
             <p>{{ __('site.footer.tagline') }}</p>
         </div>
     </div>

@@ -1,15 +1,15 @@
 <x-layout
-    :title="__('site.pages.company.about_title')"
-    :description="__('site.pages.company.about_description')"
+    :title="__('site.pages.nit_company.title')"
+    :description="__('site.pages.nit_company.description')"
 >
-    <x-breadcrumb :items="[['label' => __('site.nav.company'), 'url' => route('company.about')], ['label' => __('site.pages.company.about_title')]]" />
+    <x-breadcrumb :items="[['label' => __('site.nav.company'), 'url' => route('company.about')], ['label' => __('site.pages.nit_company.title')]]" />
 
     <section class="bg-surface">
         <div class="container-nexora py-14 lg:py-20">
-            <p class="eyebrow">{{ __('site.pages.company.about_eyebrow') }}</p>
-            <h1 class="mt-2 max-w-3xl text-3xl font-bold text-navy sm:text-4xl">{{ __('site.pages.company.about_heading') }}</h1>
+            <p class="eyebrow">NIT · IT Management Consultant</p>
+            <h1 class="mt-2 max-w-3xl text-3xl font-bold text-navy sm:text-4xl">{{ __('site.pages.nit_company.title') }}</h1>
             <p class="mt-4 max-w-2xl text-base text-muted">
-                {{ __('site.pages.company.about_intro') }}
+                {{ __('site.home.nit_about') }}
             </p>
         </div>
     </section>
@@ -18,27 +18,31 @@
         <div class="container-nexora grid gap-8 sm:grid-cols-3">
             <div class="rounded-xl border border-navy/10 p-6">
                 <p class="text-sm font-semibold text-accent">{{ __('site.pages.company.vision') }}</p>
-                <p class="mt-2 text-sm text-muted">{{ __('site.pages.company.vision_text') }}</p>
+                <p class="mt-2 text-sm text-muted">{{ __('site.pages.nit_company.vision') }}</p>
             </div>
             <div class="rounded-xl border border-navy/10 p-6">
                 <p class="text-sm font-semibold text-accent">{{ __('site.pages.company.mission') }}</p>
-                <p class="mt-2 text-sm text-muted">{{ __('site.pages.company.mission_text') }}</p>
+                <p class="mt-2 text-sm text-muted">{{ __('site.pages.nit_company.mission') }}</p>
             </div>
             <div class="rounded-xl border border-navy/10 p-6">
-                <p class="text-sm font-semibold text-accent">{{ __('site.pages.company.values') }}</p>
-                <p class="mt-2 text-sm text-muted">{{ __('site.pages.company.values_text') }}</p>
+                <p class="text-sm font-semibold text-accent">{{ __('site.pages.nit_company.culture_title') }}</p>
+                <ul class="mt-2 space-y-1 text-sm text-muted">
+                    @foreach (__('site.pages.nit_company.culture') as $value)
+                        <li>{{ $value }}</li>
+                    @endforeach
+                </ul>
             </div>
         </div>
     </section>
 
     <section class="section-py bg-surface">
         <div class="container-nexora">
-            <x-section-heading :eyebrow="__('site.pages.company.why_eyebrow')" :title="__('site.pages.company.why_heading')" />
+            <x-section-heading :title="__('site.home.nit_why_title')" />
             <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                @foreach (__('site.pages.company.strengths') as $strength)
+                @foreach (__('site.home.nit_why') as $strength)
                     <div class="rounded-xl bg-white p-6">
                         <p class="text-sm font-semibold text-navy">{{ $strength['title'] }}</p>
-                        <p class="mt-2 text-sm text-muted">{{ $strength['desc'] }}</p>
+                        <p class="mt-2 text-sm text-muted">{{ $strength['description'] }}</p>
                     </div>
                 @endforeach
             </div>

@@ -45,9 +45,8 @@
     class="fixed inset-y-0 left-0 z-50 flex w-[270px] -translate-x-full flex-col bg-navy transition-transform duration-200 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0"
 >
     <div class="flex h-20 shrink-0 items-center justify-between px-5 border-b border-white/10">
-        <a href="{{ route('admin.dashboard') }}" class="flex flex-col leading-none admin-sidebar-brand">
-            <span class="text-lg font-bold tracking-tight text-white">NEXORA</span>
-            <span class="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/45">IT Consulting Management</span>
+        <a href="{{ route('admin.dashboard') }}" class="inline-flex rounded bg-white p-1.5 admin-sidebar-brand">
+            <img src="{{ app(\App\Support\SiteBrand::class)->logoUrl() }}" alt="NIT Nusa Indo Technology" class="w-52">
         </a>
         <button type="button" data-admin-drawer-toggle aria-expanded="false" aria-label="Close menu" class="lg:hidden text-white/70 hover:text-white p-1">
             <x-admin.icon name="close" class="w-5 h-5" />

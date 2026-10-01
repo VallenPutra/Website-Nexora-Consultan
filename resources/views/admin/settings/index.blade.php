@@ -13,6 +13,23 @@
             <div class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{{ session('error') }}</div>
         @endif
 
+        <div class="admin-card p-5 sm:p-6">
+            <h2 class="text-base font-semibold text-navy">Site Logo</h2>
+            <p class="mt-1 text-sm text-muted">Upload a PNG, JPG, or WebP logo. Maximum file size is 3 MB.</p>
+            <div class="mt-5 flex min-h-24 items-center rounded-xl border border-navy/10 bg-surface p-4">
+                <img src="{{ app(\App\Support\SiteBrand::class)->logoUrl() }}" alt="Current NIT site logo" class="h-auto max-h-16 max-w-64 object-contain">
+            </div>
+            <form method="POST" action="{{ route('admin.settings.logo') }}" enctype="multipart/form-data" class="mt-5 flex flex-col gap-4 sm:flex-row sm:items-end">
+                @csrf
+                <div class="flex-1">
+                    <label for="site_logo" class="text-sm font-medium text-navy">Choose a new logo</label>
+                    <input id="site_logo" name="logo" type="file" accept="image/png,image/jpeg,image/webp" required class="mt-1.5 block w-full rounded-lg border border-navy/15 bg-white px-3 py-2 text-sm file:mr-4 file:rounded-md file:border-0 file:bg-surface file:px-3 file:py-2 file:text-sm file:font-semibold file:text-navy">
+                    @error('logo', 'updateLogo') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                </div>
+                <button type="submit" class="admin-btn-primary">Save Logo</button>
+            </form>
+        </div>
+
         {{-- My Profile --}}
         <div class="admin-card p-5 sm:p-6">
             <h2 class="text-base font-semibold text-navy">My Profile</h2>

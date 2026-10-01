@@ -25,10 +25,12 @@ use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\InsightController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\SolutionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 
 Route::get('/locale/{locale}', [LocaleController::class, 'switch'])->name('locale.switch');
 
@@ -115,6 +117,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::patch('/revenue/{revenue}/mark-paid', [RevenueController::class, 'markPaid'])->name('revenue.mark-paid');
 
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::post('/settings/logo', [SettingsController::class, 'updateLogo'])->name('settings.logo');
     Route::put('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.profile');
     Route::put('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.password');
     Route::post('/settings/users', [SettingsController::class, 'storeUser'])->name('settings.users.store');

@@ -420,6 +420,17 @@ return [
                 1 => 'More accurate, real-time reporting',
                 2 => 'Reduced duplicate data entry',
             ],
+            'odoo' => [
+                'eyebrow' => 'Odoo ERP Modules',
+                'heading' => 'Build the Odoo platform around every part of your operation',
+                'description' => 'Start with the modules your organization needs today and expand as your processes mature.',
+                'categories' => [
+                    ['title' => 'Operations', 'description' => 'Plan, produce, store, and deliver with connected workflows.', 'modules' => ['Manufacturing', 'Inventory', 'Purchase', 'Quality', 'Maintenance']],
+                    ['title' => 'Commercial', 'description' => 'Manage the full journey from lead to customer and renewal.', 'modules' => ['CRM', 'Sales', 'Point of Sale', 'Subscriptions', 'Website & eCommerce']],
+                    ['title' => 'Finance', 'description' => 'Improve visibility and control across financial operations.', 'modules' => ['Accounting', 'Invoicing', 'Expenses', 'Documents', 'Approvals']],
+                    ['title' => 'People', 'description' => 'Bring employee services, projects, and time into one system.', 'modules' => ['Employees', 'Recruitment', 'Time Off', 'Timesheets', 'Project']],
+                ],
+            ],
         ],
         'cloud-management' => [
             'title' => 'Cloud & Server Management',

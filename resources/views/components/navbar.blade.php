@@ -12,9 +12,8 @@
 <header class="sticky top-0 z-50 border-b border-navy/10 bg-white/95 backdrop-blur">
     <div class="container-nexora flex h-20 items-center justify-between gap-6">
         {{-- Logo --}}
-        <a href="{{ route('home') }}" class="flex flex-col leading-none">
-            <span class="text-xl font-bold tracking-tight text-navy">NEXORA</span>
-            <span class="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted">IT Consulting</span>
+        <a href="{{ route('home') }}" class="flex shrink-0 items-center" aria-label="NIT Nusa Indo Technology IT Management Consultant">
+            <img src="{{ app(\App\Support\SiteBrand::class)->logoUrl() }}" alt="NIT Nusa Indo Technology IT Management Consultant" class="h-auto w-56 max-w-[52vw]">
         </a>
 
         {{-- Desktop menu --}}

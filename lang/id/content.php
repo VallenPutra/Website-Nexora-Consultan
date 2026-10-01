@@ -18,7 +18,20 @@ $translations = [
         'web-development' => ['title' => 'Pengembangan Web', 'short' => 'Website dan platform web yang cepat, aman, serta mudah dipelihara.', 'hero' => 'Website dan Platform Web yang Dibangun untuk Berkinerja', 'subheadline' => 'Dari website perusahaan hingga aplikasi web kompleks, semuanya dibuat cepat, aman, dan mudah dipelihara.'],
         'mobile-app-development' => ['title' => 'Pengembangan Aplikasi Mobile', 'short' => 'Aplikasi native dan lintas platform untuk iOS dan Android.', 'hero' => 'Aplikasi Mobile yang Memperluas Bisnis Anda', 'subheadline' => 'Kami merancang dan membangun aplikasi mobile yang memberi pelanggan atau tim Anda pengalaman andal di mana saja.'],
         'ui-ux-design' => ['title' => 'Desain UI/UX', 'short' => 'Antarmuka yang jelas, mudah digunakan, dan sesuai merek.', 'hero' => 'Desain yang Membuat Teknologi Lebih Mudah Digunakan', 'subheadline' => 'Kami merancang antarmuka yang intuitif bagi pengguna dan konsisten dengan merek Anda.'],
-        'erp-odoo' => ['title' => 'Implementasi ERP & Odoo', 'short' => 'Sederhanakan operasional dengan ERP yang dikonfigurasi tepat.', 'hero' => 'Satu Sistem untuk Seluruh Operasional Anda', 'subheadline' => 'Kami menerapkan dan menyesuaikan sistem ERP, termasuk Odoo, agar operasional terhubung dalam satu platform.'],
+        'erp-odoo' => [
+            'title' => 'Implementasi ERP & Odoo', 'short' => 'Sederhanakan operasional dengan ERP yang dikonfigurasi tepat.', 'hero' => 'Satu Sistem untuk Seluruh Operasional Anda', 'subheadline' => 'Kami menerapkan dan menyesuaikan sistem ERP, termasuk Odoo, agar operasional terhubung dalam satu platform.',
+            'odoo' => [
+                'eyebrow' => 'Modul Odoo ERP',
+                'heading' => 'Bangun platform Odoo sesuai setiap bagian operasional Anda',
+                'description' => 'Mulai dari modul yang dibutuhkan organisasi saat ini dan kembangkan seiring proses bisnis semakin matang.',
+                'categories' => [
+                    ['title' => 'Operasional', 'description' => 'Rencanakan, produksi, simpan, dan kirim melalui alur kerja terhubung.', 'modules' => ['Manufaktur', 'Inventaris', 'Pembelian', 'Kualitas', 'Pemeliharaan']],
+                    ['title' => 'Komersial', 'description' => 'Kelola perjalanan dari prospek hingga pelanggan dan perpanjangan.', 'modules' => ['CRM', 'Penjualan', 'Point of Sale', 'Langganan', 'Website & E-Commerce']],
+                    ['title' => 'Keuangan', 'description' => 'Tingkatkan visibilitas dan kendali atas operasional keuangan.', 'modules' => ['Akuntansi', 'Faktur', 'Pengeluaran', 'Dokumen', 'Persetujuan']],
+                    ['title' => 'SDM & Tim', 'description' => 'Satukan layanan karyawan, proyek, dan waktu kerja dalam satu sistem.', 'modules' => ['Karyawan', 'Rekrutmen', 'Cuti', 'Timesheet', 'Proyek']],
+                ],
+            ],
+        ],
         'cloud-management' => ['title' => 'Manajemen Cloud & Server', 'short' => 'Manajemen berkelanjutan agar infrastruktur tetap sehat.', 'hero' => 'Manajemen Infrastruktur Tanpa Beban Tim Internal', 'subheadline' => 'Kami mengelola lingkungan cloud dan server agar tim Anda dapat fokus pada bisnis, bukan infrastruktur.'],
         'cybersecurity' => ['title' => 'Keamanan Siber', 'short' => 'Lindungi sistem, data, dan reputasi Anda.', 'hero' => 'Keamanan Siber Praktis untuk Bisnis yang Berkembang', 'subheadline' => 'Kami membantu mengidentifikasi risiko dan menerapkan perlindungan praktis tanpa kompleksitas yang tidak perlu.'],
         'maintenance-support' => ['title' => 'Pemeliharaan & Dukungan', 'short' => 'Dukungan andal dan responsif setelah peluncuran.', 'hero' => 'Dukungan Berkelanjutan yang Dapat Diandalkan', 'subheadline' => 'Kami menyediakan pemeliharaan dan dukungan berkelanjutan agar sistem tetap berjalan baik setelah diluncurkan.'],

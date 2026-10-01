@@ -106,15 +106,15 @@
                     <dl class="mt-5 space-y-4 text-sm text-muted">
                         <div>
                             <dt class="font-medium text-navy">{{ __('site.pages.contact.email') }}</dt>
-                            <dd><a href="mailto:hello@nexoraconsulting.co.id" class="hover:text-accent">hello@nexoraconsulting.co.id</a></dd>
+                            <dd><a href="mailto:info@nusaindotech.com" class="hover:text-accent">info@nusaindotech.com</a></dd>
                         </div>
                         <div>
                             <dt class="font-medium text-navy">{{ __('site.pages.contact.phone') }}</dt>
-                            <dd><a href="tel:+622112345678" class="hover:text-accent">+62 21 1234 5678</a></dd>
+                            <dd><a href="tel:+6287852461990" class="hover:text-accent">0878 5246 1990 / 0858 5590 3003</a></dd>
                         </div>
                         <div>
                             <dt class="font-medium text-navy">{{ __('site.pages.contact.office_address') }}</dt>
-                            <dd>Jl. Sudirman No. 88, Surabaya, Indonesia</dd>
+                            <dd>Jl. Penjaringan Sari 1B No. 42, Rungkut, Surabaya 60297, Indonesia</dd>
                         </div>
                         <div>
                             <dt class="font-medium text-navy">{{ __('site.pages.contact.operating_hours') }}</dt>
