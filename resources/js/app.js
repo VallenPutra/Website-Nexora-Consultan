@@ -6,35 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initMegaMenus();
     initContactForm();
     initConsultationChat();
-    initPortfolioFilter();
 });
-
-function initPortfolioFilter() {
-    const filters = document.querySelector('[data-portfolio-filters]');
-    const items = document.querySelectorAll('[data-portfolio-item]');
-
-    if (!filters || items.length === 0) return;
-
-    filters.querySelectorAll('[data-portfolio-filter]').forEach((button) => {
-        button.addEventListener('click', () => {
-            const selectedCategory = button.dataset.portfolioFilter;
-
-            filters.querySelectorAll('[data-portfolio-filter]').forEach((filterButton) => {
-                const isSelected = filterButton === button;
-                filterButton.setAttribute('aria-pressed', String(isSelected));
-                filterButton.classList.toggle('bg-accent', isSelected);
-                filterButton.classList.toggle('text-navy', isSelected);
-                filterButton.classList.toggle('bg-surface', !isSelected);
-                filterButton.classList.toggle('text-muted', !isSelected);
-            });
-
-            items.forEach((item) => {
-                const isVisible = selectedCategory === 'all' || item.dataset.portfolioItem === selectedCategory;
-                item.classList.toggle('hidden', !isVisible);
-            });
-        });
-    });
-}
 
 function initMobileMenu() {
     const toggle = document.querySelector("[data-mobile-menu-toggle]");
@@ -288,5 +260,66 @@ function initContactForm() {
         if (hasError) {
             event.preventDefault();
         }
+    });
+}
+
+
+// Article page: table-of-contents scroll-spy + copy-link button
+document.addEventListener("DOMContentLoaded", () => {
+    initArticleToc();
+    initCopyLink();
+});
+
+function initArticleToc() {
+    const links = document.querySelectorAll("[data-toc-link]");
+    if (!links.length || !("IntersectionObserver" in window)) return;
+
+    const byId = new Map();
+    links.forEach((link) => byId.set(link.getAttribute("href").slice(1), link));
+
+    const setActive = (id) => {
+        links.forEach((link) => {
+            const active = link.getAttribute("href").slice(1) === id;
+            link.classList.toggle("border-accent", active);
+            link.classList.toggle("text-navy", active);
+            link.classList.toggle("font-semibold", active);
+            link.classList.toggle("border-transparent", !active);
+            link.classList.toggle("text-muted", !active);
+        });
+    };
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            const visible = entries.find((entry) => entry.isIntersecting);
+            if (visible) setActive(visible.target.id);
+        },
+        { rootMargin: "-100px 0px -65% 0px", threshold: 0 },
+    );
+
+    byId.forEach((_, id) => {
+        const heading = document.getElementById(id);
+        if (heading) observer.observe(heading);
+    });
+
+    setActive(links[0].getAttribute("href").slice(1));
+}
+
+function initCopyLink() {
+    const button = document.querySelector("[data-copy-link]");
+    if (!button) return;
+
+    const feedback = document.querySelector("[data-copy-feedback]");
+
+    button.addEventListener("click", async () => {
+        try {
+            await navigator.clipboard.writeText(window.location.href);
+        } catch {
+            return;
+        }
+
+        if (!feedback) return;
+        feedback.textContent = button.dataset.copiedLabel || "";
+        feedback.classList.remove("hidden");
+        setTimeout(() => feedback.classList.add("hidden"), 2000);
     });
 }

@@ -50,10 +50,17 @@ class InsightController extends Controller
             ->except($slug)
             ->take(3);
 
+        $slugs = array_keys($articles);
+        $position = array_search($slug, $slugs, true);
+        $previousSlug = $slugs[$position - 1] ?? null;
+        $nextSlug = $slugs[$position + 1] ?? null;
+
         return view('pages.insights.show', [
             'slug' => $slug,
             'article' => $articles[$slug],
             'related' => $related,
+            'previousSlug' => $previousSlug,
+            'nextSlug' => $nextSlug,
         ]);
     }
 }

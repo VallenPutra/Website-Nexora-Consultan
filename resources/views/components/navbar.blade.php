@@ -18,45 +18,88 @@
 
         {{-- Desktop menu --}}
         <nav class="hidden items-center gap-1 lg:flex" aria-label="Primary">
-            {{-- Solutions mega menu --}}
-            <div class="relative" data-mega-menu-item>
+            {{-- Solutions mega menu (full-width, category list on the left, cards on the right) --}}
+            @php
+                // Each category lists existing pages: ['solutions' | 'services', slug].
+                $solutionCategories = [
+                    ['key' => 'transformation', 'items' => [['solutions', 'digital-transformation'], ['solutions', 'business-process-automation'], ['solutions', 'it-strategy-consulting'], ['services', 'it-consulting']]],
+                    ['key' => 'erp', 'items' => [['services', 'erp-odoo'], ['solutions', 'enterprise-software']]],
+                    ['key' => 'infrastructure', 'items' => [['solutions', 'it-infrastructure'], ['solutions', 'cloud-solutions'], ['services', 'cloud-management'], ['services', 'maintenance-support']]],
+                    ['key' => 'security', 'items' => [['services', 'cybersecurity']]],
+                    ['key' => 'development', 'items' => [['services', 'web-development'], ['services', 'mobile-app-development'], ['services', 'ui-ux-design']]],
+                    ['key' => 'integration', 'items' => [['solutions', 'system-integration'], ['solutions', 'data-analytics']]],
+                ];
+
+                $solutionCategories = collect($solutionCategories)->map(function (array $category) use ($solutions, $services): array {
+                    $category['cards'] = collect($category['items'])->map(function (array $ref) use ($solutions, $services): ?array {
+                        [$type, $slug] = $ref;
+                        $item = ($type === 'solutions' ? $solutions : $services)[$slug] ?? null;
+
+                        return $item ? [
+                            'title' => $item['title'],
+                            'short' => $item['short'],
+                            'url' => route($type . '.show', $slug),
+                        ] : null;
+                    })->filter()->values();
+
+                    return $category;
+                })->filter(fn (array $category) => $category['cards']->isNotEmpty())->values();
+            @endphp
+            <div class="flex h-20 items-center" data-mega-menu-item data-solution-menu>
                 <button type="button" data-mega-menu-trigger aria-expanded="false"
                     class="flex items-center gap-1 rounded-lg px-4 py-2 text-sm font-medium text-navy hover:text-accent">
                     {{ __('site.nav.solutions') }}
                     <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
-                <div data-mega-menu-panel class="absolute left-1/2 top-full hidden w-160 -translate-x-1/2 pt-3 opacity-0 transition-all duration-150">
-                    <div class="rounded-xl border border-navy/10 bg-white p-6 shadow-xl">
-                        <div class="grid grid-cols-2 gap-8">
-                            <div>
-                                <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-muted">{{ __('site.nav.business_solutions') }}</p>
-                                <ul class="space-y-3">
-                                    @foreach ($businessSolutions as $slug => $item)
-                                        <li>
-                                            <a href="{{ route('solutions.show', $slug) }}" class="group block rounded-lg p-2 -m-2 hover:bg-surface">
-                                                <span class="block text-sm font-semibold text-navy group-hover:text-accent">{{ $item['title'] }}</span>
-                                                <span class="mt-0.5 block text-xs text-muted">{{ $item['short'] }}</span>
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            <div>
-                                <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-muted">{{ __('site.nav.technology_solutions') }}</p>
-                                <ul class="space-y-3">
-                                    @foreach ($techSolutions as $slug => $item)
-                                        <li>
-                                            <a href="{{ route('solutions.show', $slug) }}" class="group block rounded-lg p-2 -m-2 hover:bg-surface">
-                                                <span class="block text-sm font-semibold text-navy group-hover:text-accent">{{ $item['title'] }}</span>
-                                                <span class="mt-0.5 block text-xs text-muted">{{ $item['short'] }}</span>
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                <div data-mega-menu-panel class="absolute inset-x-0 top-full hidden bg-white opacity-0 shadow-lg transition-all duration-150">
+                    <div class="container-nexora grid grid-cols-[17rem_1fr] gap-4 py-4">
+                        {{-- Left: categories --}}
+                        <div role="tablist" aria-orientation="vertical">
+                            @foreach ($solutionCategories as $category)
+                                <button type="button" role="tab" data-solution-tab="{{ $category['key'] }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}"
+                                    class="flex h-13 w-full items-center gap-2 rounded-lg px-4 text-left text-sm {{ $loop->first ? 'bg-surface font-semibold text-navy' : 'font-normal text-charcoal' }}">
+                                    @if ($category['key'] === 'transformation')
+                                        <svg class="h-6 w-6 shrink-0 text-gray-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8M15 7h6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    @endif
+                                    @if ($category['key'] === 'erp')
+                                        <svg class="h-6 w-6 shrink-0 text-gray-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5zM3 12.5l9 5 9-5M3 16.5l9 5 9-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    @endif
+                                    @if ($category['key'] === 'infrastructure')
+                                        <svg class="h-6 w-6 shrink-0 text-gray-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 18.5a4.25 4.25 0 010-8.5 5.5 5.5 0 0110.6-1.3A3.9 3.9 0 0117 18.5H7z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                                    @endif
+                                    @if ($category['key'] === 'security')
+                                        <svg class="h-6 w-6 shrink-0 text-gray-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6l8-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 12l2.2 2.2L15.5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    @endif
+                                    @if ($category['key'] === 'development')
+                                        <svg class="h-6 w-6 shrink-0 text-gray-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    @endif
+                                    @if ($category['key'] === 'integration')
+                                        <svg class="h-6 w-6 shrink-0 text-gray-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="5.5" cy="12" r="2.25" stroke="currentColor" stroke-width="1.5"/><circle cx="18.5" cy="5.5" r="2.25" stroke="currentColor" stroke-width="1.5"/><circle cx="18.5" cy="18.5" r="2.25" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 11l9-4.5M7.5 13l9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                    @endif
+                                    <span class="min-w-0 flex-1 truncate">{{ __('nav.categories.' . $category['key'] . '.label') }}</span>
+                                    <svg class="h-5 w-5 shrink-0 text-navy" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7.5 4.5l5.5 5.5-5.5 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </button>
+                            @endforeach
                         </div>
-                        <div class="mt-5 border-t border-navy/10 pt-4">
-                            <a href="{{ route('solutions.index') }}" class="text-sm font-semibold text-navy hover:text-accent">{{ __('site.nav.view_all_solutions') }} &rarr;</a>
+
+                        {{-- Right: description + solution cards --}}
+                        <div class="min-w-0">
+                            @foreach ($solutionCategories as $category)
+                                <div data-solution-pane="{{ $category['key'] }}" role="tabpanel" class="{{ $loop->first ? '' : 'hidden' }}">
+                                    <p class="text-sm leading-normal text-muted">
+                                        {{ __('nav.categories.' . $category['key'] . '.description') }}
+                                        <a href="{{ route('solutions.index') }}" class="font-medium text-amber-700 underline underline-offset-2 hover:text-accent">{{ __('nav.see_more') }}</a>
+                                    </p>
+                                    <div class="mt-4 grid grid-cols-3 gap-4">
+                                        @foreach ($category['cards'] as $card)
+                                            <a href="{{ $card['url'] }}" class="group flex min-h-30.75 flex-col rounded-md border border-neutral-300 px-4 pb-4 pt-5 hover:border-accent hover:shadow-sm">
+                                                <span class="text-sm font-bold text-navy group-hover:text-accent">{{ $card['title'] }}</span>
+                                                <span class="mt-5 line-clamp-2 text-sm leading-normal text-charcoal/75">{{ $card['short'] }}</span>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -298,3 +341,32 @@
         </div>
     </div>
 </header>
+
+<script>
+    // Solutions mega menu: switch the card panel when a category is hovered, focused, or clicked.
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('[data-solution-menu]').forEach((menu) => {
+            const tabs = [...menu.querySelectorAll('[data-solution-tab]')];
+            const panes = [...menu.querySelectorAll('[data-solution-pane]')];
+
+            const activate = (key) => {
+                tabs.forEach((tab) => {
+                    const on = tab.dataset.solutionTab === key;
+                    tab.setAttribute('aria-selected', String(on));
+                    tab.classList.toggle('bg-surface', on);
+                    tab.classList.toggle('font-semibold', on);
+                    tab.classList.toggle('text-navy', on);
+                    tab.classList.toggle('font-normal', !on);
+                    tab.classList.toggle('text-charcoal', !on);
+                });
+                panes.forEach((pane) => pane.classList.toggle('hidden', pane.dataset.solutionPane !== key));
+            };
+
+            tabs.forEach((tab) => {
+                ['mouseenter', 'focus', 'click'].forEach((type) => {
+                    tab.addEventListener(type, () => activate(tab.dataset.solutionTab));
+                });
+            });
+        });
+    });
+</script>
