@@ -124,6 +124,7 @@ return [
             ['title' => 'TOGAF & Enterprise Architecture', 'description' => 'Gunakan pendekatan arsitektur enterprise untuk merencanakan dan mengelola perubahan sistem secara terstruktur.'],
         ],
         'nit_why_title' => 'Mengapa menggunakan konsultan TI?',
+        'nit_consulting_intro' => 'Konsultan TI membantu organisasi mengambil keputusan teknologi yang tepat, mengurangi risiko, dan menyelaraskan investasi TI dengan tujuan organisasi.',
         'nit_why' => [
             ['title' => 'Arahan yang terukur', 'description' => 'Gabungkan pemahaman konseptual dengan pengalaman penerapan untuk membantu memilih langkah yang sesuai.'],
             ['title' => 'Perencanaan jangka panjang', 'description' => 'Petakan kebutuhan strategi SI/TI dan perangkat teknologi secara bertahap.'],

@@ -124,6 +124,7 @@ return [
             ['title' => 'TOGAF & Enterprise Architecture', 'description' => 'Use an enterprise architecture approach to plan and manage system change in a structured way.'],
         ],
         'nit_why_title' => 'Why work with an IT consultant?',
+        'nit_consulting_intro' => 'An IT consultant helps organizations make informed technology decisions, reduce risk, and align IT investments with their goals.',
         'nit_why' => [
             ['title' => 'Practical guidance', 'description' => 'Combine conceptual understanding with implementation experience to choose suitable next steps.'],
             ['title' => 'Long-term planning', 'description' => 'Map information systems strategy and technology needs into achievable phases.'],
