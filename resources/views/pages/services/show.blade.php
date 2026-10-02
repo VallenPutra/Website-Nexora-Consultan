@@ -26,7 +26,7 @@
                 />
                 <div class="mt-10 grid gap-5 sm:grid-cols-2">
                     @foreach ($service['odoo']['categories'] as $category)
-                        <article id="{{ \Illuminate\Support\Str::slug($category['title']) }}" class="scroll-mt-28 rounded-xl border border-navy/10 bg-white p-6">
+                        <a href="{{ route('services.odoo-category', $category['slug']) }}" class="group rounded-xl border border-navy/10 bg-white p-6 transition hover:border-accent/50 hover:shadow-lg">
                             <h2 class="text-lg font-semibold text-navy">{{ $category['title'] }}</h2>
                             <p class="mt-2 text-sm leading-6 text-muted">{{ $category['description'] }}</p>
                             <ul class="mt-4 grid gap-2 sm:grid-cols-2">
@@ -37,7 +37,8 @@
                                     </li>
                                 @endforeach
                             </ul>
-                        </article>
+                            <span class="mt-5 inline-flex text-sm font-semibold text-accent">{{ __('site.pages.services.explore') }} &rarr;</span>
+                        </a>
                     @endforeach
                 </div>
             </div>

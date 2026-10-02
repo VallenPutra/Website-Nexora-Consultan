@@ -20,25 +20,22 @@
         <nav class="hidden items-center gap-1 lg:flex" aria-label="Primary">
             {{-- Solutions mega menu (full-width, category list on the left, cards on the right) --}}
             @php
-                // Each category lists existing pages: ['solutions' | 'services', slug].
+                // Each category lists existing solution pages by slug.
                 $solutionCategories = [
-                    ['key' => 'transformation', 'items' => [['solutions', 'digital-transformation'], ['solutions', 'business-process-automation'], ['solutions', 'it-strategy-consulting'], ['services', 'it-consulting']]],
-                    ['key' => 'erp', 'items' => [['services', 'erp-odoo'], ['solutions', 'enterprise-software']]],
-                    ['key' => 'infrastructure', 'items' => [['solutions', 'it-infrastructure'], ['solutions', 'cloud-solutions'], ['services', 'cloud-management'], ['services', 'maintenance-support']]],
-                    ['key' => 'security', 'items' => [['services', 'cybersecurity']]],
-                    ['key' => 'development', 'items' => [['services', 'web-development'], ['services', 'mobile-app-development'], ['services', 'ui-ux-design']]],
-                    ['key' => 'integration', 'items' => [['solutions', 'system-integration'], ['solutions', 'data-analytics']]],
+                    ['key' => 'transformation', 'items' => ['digital-transformation', 'business-process-automation', 'it-strategy-consulting']],
+                    ['key' => 'erp', 'items' => ['enterprise-software']],
+                    ['key' => 'infrastructure', 'items' => ['it-infrastructure', 'cloud-solutions']],
+                    ['key' => 'integration', 'items' => ['system-integration', 'data-analytics']],
                 ];
 
-                $solutionCategories = collect($solutionCategories)->map(function (array $category) use ($solutions, $services): array {
-                    $category['cards'] = collect($category['items'])->map(function (array $ref) use ($solutions, $services): ?array {
-                        [$type, $slug] = $ref;
-                        $item = ($type === 'solutions' ? $solutions : $services)[$slug] ?? null;
+                $solutionCategories = collect($solutionCategories)->map(function (array $category) use ($solutions): array {
+                    $category['cards'] = collect($category['items'])->map(function (string $slug) use ($solutions): ?array {
+                        $item = $solutions[$slug] ?? null;
 
                         return $item ? [
                             'title' => $item['title'],
                             'short' => $item['short'],
-                            'url' => route($type . '.show', $slug),
+                            'url' => route('solutions.show', $slug),
                         ] : null;
                     })->filter()->values();
 

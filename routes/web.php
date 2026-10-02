@@ -40,6 +40,7 @@ Route::get('/solutions/{slug}', [SolutionController::class, 'show'])->name('solu
 
 // Services
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+Route::get('/services/erp-odoo/{category}', [ServiceController::class, 'odooCategory'])->name('services.odoo-category');
 Route::get('/services/{slug}', [ServiceController::class, 'show'])->name('services.show');
 
 // Industries

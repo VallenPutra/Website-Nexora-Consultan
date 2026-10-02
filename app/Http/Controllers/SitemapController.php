@@ -22,6 +22,7 @@ class SitemapController extends Controller
             route('contact'),
             ...collect(array_keys(SiteContent::solutions()))->map(fn (string $slug): string => route('solutions.show', $slug))->all(),
             ...collect(array_keys(SiteContent::services()))->map(fn (string $slug): string => route('services.show', $slug))->all(),
+            ...collect(SiteContent::services()['erp-odoo']['odoo']['categories'] ?? [])->map(fn (array $category): string => route('services.odoo-category', $category['slug']))->all(),
             ...collect(array_keys(SiteContent::industries()))->map(fn (string $slug): string => route('industries.show', $slug))->all(),
             ...collect(array_keys(SiteContent::insights()))->map(fn (string $slug): string => route('insights.show', $slug))->all(),
         ];

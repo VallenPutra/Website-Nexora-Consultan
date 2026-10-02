@@ -27,4 +27,19 @@ class ServiceController extends Controller
             'allServices' => $services,
         ]);
     }
+
+    public function odooCategory(string $category): View
+    {
+        $service = SiteContent::services()['erp-odoo'] ?? null;
+        abort_unless($service !== null, Response::HTTP_NOT_FOUND);
+
+        $categoryContent = collect($service['odoo']['categories'] ?? [])
+            ->firstWhere('slug', $category);
+        abort_unless($categoryContent !== null, Response::HTTP_NOT_FOUND);
+
+        return view('pages.services.odoo-category', [
+            'service' => $service,
+            'category' => $categoryContent,
+        ]);
+    }
 }
