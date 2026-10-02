@@ -7,6 +7,14 @@ return [
             'label' => 'Transformasi Digital',
             'description' => 'Rencanakan dan modernisasi cara organisasi Anda beroperasi, dari strategi dan konsultasi TI hingga otomatisasi proses dan peta jalan digital yang jelas.',
         ],
+        'it_consulting' => [
+            'label' => 'IT Consulting',
+            'description' => 'Perencanaan portofolio TI, arsitektur enterprise, serta tata kelola dan audit TI untuk menyelaraskan teknologi dengan tujuan organisasi.',
+        ],
+        'technology_services' => [
+            'label' => 'Pengembangan & Kapabilitas Teknologi',
+            'description' => 'Pelatihan TI, pengembangan software dan hardware, serta layanan multimedia sesuai kebutuhan organisasi.',
+        ],
         'erp' => [
             'label' => 'ERP & Software Enterprise',
             'description' => 'Jalankan keuangan, operasional, penjualan, dan SDM di atas sistem yang terhubung, dengan implementasi Odoo dan software enterprise khusus.',

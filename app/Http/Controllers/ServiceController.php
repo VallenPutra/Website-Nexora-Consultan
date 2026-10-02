@@ -17,6 +17,15 @@ class ServiceController extends Controller
 
     public function show(string $slug): View
     {
+        $nitServices = collect(__('site.home.nit_services'))->keyBy('slug');
+
+        if ($nitServices->has($slug)) {
+            return view('pages.services.nit-show', [
+                'slug' => $slug,
+                'service' => $nitServices->get($slug),
+            ]);
+        }
+
         $services = SiteContent::services();
 
         abort_unless(array_key_exists($slug, $services), Response::HTTP_NOT_FOUND);

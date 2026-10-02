@@ -7,6 +7,14 @@ return [
             'label' => 'Digital Transformation',
             'description' => 'Plan and modernize how your organization operates, from IT strategy and consulting to process automation and a clear digital roadmap.',
         ],
+        'it_consulting' => [
+            'label' => 'IT Consulting',
+            'description' => 'IT portfolio planning, enterprise architecture, and IT governance and audit to align technology with organizational goals.',
+        ],
+        'technology_services' => [
+            'label' => 'Technology Development & Enablement',
+            'description' => 'IT training, software and hardware development, and multimedia services tailored to organizational needs.',
+        ],
         'erp' => [
             'label' => 'ERP & Enterprise Software',
             'description' => 'Run finance, operations, sales, and people on connected systems, with Odoo implementation and custom enterprise software.',

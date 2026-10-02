@@ -15,6 +15,7 @@ class SitemapController extends Controller
             route('services.index'),
             route('industries.index'),
             route('insights.index'),
+            route('portfolio.index'),
             route('company.about'),
             route('company.approach'),
             route('company.team'),

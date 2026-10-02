@@ -4,6 +4,7 @@
     $industries = \App\Support\SiteContent::industries();
     $insights = \App\Support\SiteContent::insights();
     $insightCategories = collect($insights)->pluck('category')->unique()->values();
+    $nitServices = __('site.home.nit_services');
 
     $businessSolutions = collect($solutions)->filter(fn ($item) => in_array($item['group'], ['Business Solutions', 'Solusi Bisnis'], true));
     $techSolutions = collect($solutions)->filter(fn ($item) => in_array($item['group'], ['Technology Solutions', 'Solusi Teknologi'], true));
@@ -41,6 +42,15 @@
 
                     return $category;
                 })->filter(fn (array $category) => $category['cards']->isNotEmpty())->values();
+
+                $solutionCategories->push([
+                    'key' => 'it_consulting',
+                    'cards' => collect(array_slice($nitServices, 0, 3))->values()->map(fn (array $item, int $index): array => [
+                        'title' => $item['title'],
+                        'short' => $item['description'],
+                        'url' => route('services.show', $item['slug']),
+                    ]),
+                ]);
             @endphp
             <div class="flex h-20 items-center" data-mega-menu-item data-solution-menu>
                 <button type="button" data-mega-menu-trigger aria-expanded="false"
@@ -72,6 +82,9 @@
                                     @endif
                                     @if ($category['key'] === 'integration')
                                         <svg class="h-6 w-6 shrink-0 text-gray-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="5.5" cy="12" r="2.25" stroke="currentColor" stroke-width="1.5"/><circle cx="18.5" cy="5.5" r="2.25" stroke="currentColor" stroke-width="1.5"/><circle cx="18.5" cy="18.5" r="2.25" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 11l9-4.5M7.5 13l9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                    @endif
+                                    @if ($category['key'] === 'it_consulting')
+                                        <svg class="h-6 w-6 shrink-0 text-gray-400" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 19V5m0 14h16M7 15l4-4 3 2 5-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.5 7H19v3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                                     @endif
                                     <span class="min-w-0 flex-1 truncate">{{ __('nav.categories.' . $category['key'] . '.label') }}</span>
                                     <svg class="h-5 w-5 shrink-0 text-navy" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7.5 4.5l5.5 5.5-5.5 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -116,6 +129,12 @@
                                 <a href="{{ route('services.show', $slug) }}" class="group block rounded-lg p-2 -m-2 hover:bg-surface">
                                     <span class="block text-sm font-semibold text-navy group-hover:text-accent">{{ $item['title'] }}</span>
                                     <span class="mt-0.5 block text-xs text-muted">{{ $item['short'] }}</span>
+                                </a>
+                            @endforeach
+                            @foreach (array_slice($nitServices, 3, 3, true) as $item)
+                                <a href="{{ route('services.show', $item['slug']) }}" class="group block rounded-lg p-2 -m-2 hover:bg-surface">
+                                    <span class="block text-sm font-semibold text-navy group-hover:text-accent">{{ $item['title'] }}</span>
+                                    <span class="mt-0.5 block text-xs text-muted">{{ $item['description'] }}</span>
                                 </a>
                             @endforeach
                         </div>
@@ -185,6 +204,7 @@
                         <a href="{{ route('company.about') }}" class="block rounded-lg px-3 py-2 text-sm font-medium text-navy hover:bg-surface hover:text-accent">{{ __('site.nav.about') }}</a>
                         <a href="{{ route('company.approach') }}" class="block rounded-lg px-3 py-2 text-sm font-medium text-navy hover:bg-surface hover:text-accent">{{ __('site.nav.approach') }}</a>
                         <a href="{{ route('company.team') }}" class="block rounded-lg px-3 py-2 text-sm font-medium text-navy hover:bg-surface hover:text-accent">{{ __('site.nav.team') }}</a>
+                        <a href="{{ route('portfolio.index') }}" class="block rounded-lg px-3 py-2 text-sm font-medium text-navy hover:bg-surface hover:text-accent">{{ __('site.nav.portfolio') }}</a>
                         <a href="{{ route('company.careers') }}" class="block rounded-lg px-3 py-2 text-sm font-medium text-navy hover:bg-surface hover:text-accent">{{ __('site.nav.careers') }}</a>
                         <a href="{{ route('company.partners') }}" class="block rounded-lg px-3 py-2 text-sm font-medium text-navy hover:bg-surface hover:text-accent">{{ __('site.nav.partners') }}</a>
                     </div>
@@ -257,6 +277,9 @@
                     @foreach ($solutions as $slug => $item)
                         <a href="{{ route('solutions.show', $slug) }}" class="block rounded-lg px-2 py-2 text-sm text-muted hover:text-navy">{{ $item['title'] }}</a>
                     @endforeach
+                    @foreach (array_slice($nitServices, 0, 3, true) as $index => $item)
+                        <a href="{{ route('services.show', $item['slug']) }}" class="block rounded-lg px-2 py-2 text-sm text-muted hover:text-navy">{{ $item['title'] }}</a>
+                    @endforeach
                 </div>
             </div>
 
@@ -268,6 +291,9 @@
                 <div class="hidden space-y-1 pb-2 pl-2">
                     @foreach ($services as $slug => $item)
                         <a href="{{ route('services.show', $slug) }}" class="block rounded-lg px-2 py-2 text-sm text-muted hover:text-navy">{{ $item['title'] }}</a>
+                    @endforeach
+                    @foreach (array_slice($nitServices, 3, 3, true) as $index => $item)
+                        <a href="{{ route('services.show', $item['slug']) }}" class="block rounded-lg px-2 py-2 text-sm text-muted hover:text-navy">{{ $item['title'] }}</a>
                     @endforeach
                 </div>
             </div>
@@ -306,6 +332,7 @@
                     <a href="{{ route('company.about') }}" class="block rounded-lg px-2 py-2 text-sm text-muted hover:text-navy">{{ __('site.nav.about') }}</a>
                     <a href="{{ route('company.approach') }}" class="block rounded-lg px-2 py-2 text-sm text-muted hover:text-navy">{{ __('site.nav.approach') }}</a>
                     <a href="{{ route('company.team') }}" class="block rounded-lg px-2 py-2 text-sm text-muted hover:text-navy">{{ __('site.nav.team') }}</a>
+                    <a href="{{ route('portfolio.index') }}" class="block rounded-lg px-2 py-2 text-sm text-muted hover:text-navy">{{ __('site.nav.portfolio') }}</a>
                     <a href="{{ route('company.careers') }}" class="block rounded-lg px-2 py-2 text-sm text-muted hover:text-navy">{{ __('site.nav.careers') }}</a>
                     <a href="{{ route('company.partners') }}" class="block rounded-lg px-2 py-2 text-sm text-muted hover:text-navy">{{ __('site.nav.partners') }}</a>
                 </div>

@@ -145,5 +145,7 @@ class DatabaseSeeder extends Seeder
                 ]
             );
         }
+
+        $this->call(PortfolioItemSeeder::class);
     }
 }

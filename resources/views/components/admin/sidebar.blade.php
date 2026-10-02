@@ -21,6 +21,7 @@
         ],
         'CONTENT' => [
             ['label' => 'Insights', 'icon' => 'insights', 'href' => route('admin.insights.index'), 'active' => request()->routeIs('admin.insights.*')],
+            ['label' => 'Portfolio', 'icon' => 'projects', 'href' => route('admin.portfolio.index'), 'active' => request()->routeIs('admin.portfolio.*')],
             ['label' => 'Media Library', 'icon' => 'media', 'href' => route('admin.media.index'), 'active' => request()->routeIs('admin.media.*')],
         ],
         'COMMUNICATION' => [

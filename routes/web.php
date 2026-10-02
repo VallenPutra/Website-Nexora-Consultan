@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\InsightController as AdminInsightController;
 use App\Http\Controllers\Admin\MediaLibraryController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\PlaceholderController;
+use App\Http\Controllers\Admin\PortfolioItemController as AdminPortfolioItemController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\RevenueController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\InsightController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\SolutionController;
@@ -31,6 +33,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
+Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio.index');
 
 Route::get('/locale/{locale}', [LocaleController::class, 'switch'])->name('locale.switch');
 
@@ -103,6 +106,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('services', AdminServiceController::class);
     Route::resource('team', TeamMemberController::class)->parameters(['team' => 'teamMember']);
     Route::resource('insights', AdminInsightController::class);
+    Route::resource('portfolio', AdminPortfolioItemController::class)->parameters(['portfolio' => 'portfolioItem']);
     Route::get('/media', [MediaLibraryController::class, 'index'])->name('media.index');
     Route::post('/media', [MediaLibraryController::class, 'store'])->name('media.store');
     Route::get('/media/download/{path}', [MediaLibraryController::class, 'download'])->where('path', '.*')->name('media.download');
