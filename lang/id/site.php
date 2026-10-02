@@ -130,6 +130,8 @@ return [
             ['title' => 'Risiko lebih terkendali', 'description' => 'Kenali masalah dan risiko lebih awal agar organisasi dapat menentukan tindakan mitigasi.'],
             ['title' => 'Fokus pada kebutuhan', 'description' => 'Arahkan rekomendasi pada bidang dan tantangan spesifik yang sedang dihadapi organisasi.'],
         ],
+        'nit_why_choose_title' => 'Mengapa memilih Nusa Indo Technology?',
+        'nit_why_choose_description' => 'Kami memadukan pengalaman, pemahaman bisnis, dan keahlian teknologi untuk menghadirkan solusi yang sesuai dengan kebutuhan organisasi.',
         'nit_portfolio_title' => 'Pilihan portofolio',
         'nit_portfolio_description' => 'Contoh proyek dan karya yang tercantum pada portofolio Nusa Indo Technology.',
         'nit_portfolio_categories' => [

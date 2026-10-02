@@ -130,6 +130,8 @@ return [
             ['title' => 'Managed risk', 'description' => 'Identify issues and risks early so the organization can decide on mitigation.'],
             ['title' => 'Focused expertise', 'description' => 'Shape recommendations around the organization’s specific domain and current challenges.'],
         ],
+        'nit_why_choose_title' => 'Why choose Nusa Indo Technology?',
+        'nit_why_choose_description' => 'We combine experience, business understanding, and technology expertise to deliver solutions that fit your organization’s needs.',
         'nit_portfolio_title' => 'Selected portfolio',
         'nit_portfolio_description' => 'Examples of projects and work listed in Nusa Indo Technology’s portfolio.',
         'nit_portfolio_categories' => [
