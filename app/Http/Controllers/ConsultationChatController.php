@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ConsultationChatController extends Controller
@@ -35,7 +36,7 @@ class ConsultationChatController extends Controller
             'message' => $request->validated('message'),
             'status' => 'new',
         ]);
-        $message = $consultation->chatMessages()->create(['sender_type' => 'visitor', 'body' => $request->validated('message')]);
+        $consultation->chatMessages()->create(['sender_type' => 'visitor', 'body' => $request->validated('message')]);
 
         return response()->json(['token' => $consultation->chat_token, ...$this->chatState($consultation)]);
     }
@@ -75,10 +76,29 @@ class ConsultationChatController extends Controller
         $consultation = ConsultationRequest::where('chat_token', $token)
             ->where('user_id', $request->user()->id)
             ->firstOrFail();
-        $message = $consultation->chatMessages()->create(['sender_type' => 'visitor', 'body' => $validated['body']]);
 
-        if ($consultation->status === 'closed') {
-            $consultation->update(['status' => 'new']);
+        $message = DB::transaction(function () use ($consultation, $validated): ?ConsultationMessage {
+            $lockedConsultation = ConsultationRequest::whereKey($consultation->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+            $latestMessage = $lockedConsultation->chatMessages()->latest('id')->first();
+
+            if ($latestMessage && $latestMessage->sender_type !== 'admin') {
+                return null;
+            }
+
+            if ($lockedConsultation->status === 'closed') {
+                $lockedConsultation->update(['status' => 'new']);
+            }
+
+            return $lockedConsultation->chatMessages()->create([
+                'sender_type' => 'visitor',
+                'body' => $validated['body'],
+            ]);
+        });
+
+        if (! $message) {
+            return response()->json(['message' => __('site.chat.waiting_reply')], 422);
         }
 
         return response()->json(['message' => $this->formatMessage($message)]);
@@ -90,15 +110,19 @@ class ConsultationChatController extends Controller
     }
 
     /**
-     * @return array{messages: Collection<int, array{id: int, sender: string, body: string, time: string}>, handler_name: ?string, is_typing: bool, notice: string}
+     * @return array{messages: Collection<int, array{id: int, sender: string, body: string, time: string}>, handler_name: ?string, is_typing: bool, notice: string, can_reply: bool}
      */
     private function chatState(ConsultationRequest $consultation): array
     {
+        $chatMessages = $consultation->chatMessages()->oldest('id')->get();
+        $latestMessage = $chatMessages->last();
+
         return [
-            'messages' => $consultation->chatMessages()->oldest()->get()->map(fn (ConsultationMessage $message): array => $this->formatMessage($message)),
+            'messages' => $chatMessages->map(fn (ConsultationMessage $message): array => $this->formatMessage($message)),
             'handler_name' => $consultation->handled_by,
             'is_typing' => Cache::has($this->typingCacheKey($consultation->chat_token)),
             'notice' => $this->chatNotice(),
+            'can_reply' => ! $latestMessage || $latestMessage->sender_type === 'admin',
         ];
     }
 

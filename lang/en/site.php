@@ -46,11 +46,13 @@ return [
         'message_placeholder' => 'How can we help?',
         'start' => 'Start consultation',
         'starting' => 'Starting...',
+        'sending' => 'Sending...',
         'write_placeholder' => 'Write a message...',
         'send' => 'Send',
         'handled_by' => 'This chat is being handled by :name',
         'typing' => 'Admin is typing',
-        'notice' => 'If an admin does not reply to your message within 1 day, we will reply via email.',
+        'notice' => 'Messages take turns: send one message, wait for an admin reply, then continue the conversation.',
+        'waiting_reply' => 'Please wait for an admin reply before sending your next message.',
     ],
 
     'breadcrumb' => [

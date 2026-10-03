@@ -18,6 +18,7 @@
             ['label' => 'Services', 'icon' => 'services', 'href' => route('admin.services.index'), 'active' => request()->routeIs('admin.services.*')],
             ['label' => 'Clients', 'icon' => 'clients', 'href' => route('admin.clients.index'), 'active' => request()->routeIs('admin.clients.*')],
             ['label' => 'Team', 'icon' => 'team', 'href' => route('admin.team.index'), 'active' => request()->routeIs('admin.team.*')],
+            ['label' => 'Team Group Photos', 'icon' => 'media', 'href' => route('admin.team-photos.index'), 'active' => request()->routeIs('admin.team-photos.*')],
         ],
         'CONTENT' => [
             ['label' => 'Insights', 'icon' => 'insights', 'href' => route('admin.insights.index'), 'active' => request()->routeIs('admin.insights.*')],

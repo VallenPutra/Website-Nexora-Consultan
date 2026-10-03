@@ -46,11 +46,13 @@ return [
         'message_placeholder' => 'Bagaimana kami dapat membantu?',
         'start' => 'Mulai konsultasi',
         'starting' => 'Memulai...',
+        'sending' => 'Mengirim...',
         'write_placeholder' => 'Tulis pesan...',
         'send' => 'Kirim',
         'handled_by' => 'Chat ini sedang ditangani oleh :name',
         'typing' => 'Admin sedang mengetik',
-        'notice' => 'Jika Admin Tidak Membalas Pesan Anda lebih dari 1 hari maka pesan Anda akan dibalas melalui email.',
+        'notice' => 'Pesan dikirim secara bergantian: kirim satu pesan, tunggu balasan admin, lalu lanjutkan percakapan.',
+        'waiting_reply' => 'Silakan tunggu balasan admin sebelum mengirim pesan berikutnya.',
     ],
 
     'breadcrumb' => [

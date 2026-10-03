@@ -6,7 +6,26 @@ document.addEventListener("DOMContentLoaded", () => {
     initMegaMenus();
     initContactForm();
     initConsultationChat();
+    initTeamGallery();
 });
+
+function initTeamGallery() {
+    document.querySelectorAll('[data-team-gallery]').forEach((gallery) => {
+        const track = gallery.querySelector('[data-team-gallery-track]');
+        const firstSlide = track?.firstElementChild;
+        if (!track || !firstSlide) return;
+
+        const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 0;
+        const slideWidth = firstSlide.getBoundingClientRect().width + gap;
+
+        gallery.querySelector('[data-team-gallery-prev]')?.addEventListener('click', () => {
+            track.scrollBy({ left: -slideWidth, behavior: 'smooth' });
+        });
+        gallery.querySelector('[data-team-gallery-next]')?.addEventListener('click', () => {
+            track.scrollBy({ left: slideWidth, behavior: 'smooth' });
+        });
+    });
+}
 
 function initMobileMenu() {
     const toggle = document.querySelector("[data-mobile-menu-toggle]");
@@ -42,17 +61,21 @@ function initConsultationChat() {
     const startForm = root.querySelector("[data-chat-start-form]");
     const replyForm = root.querySelector("[data-chat-reply-form]");
     const startButton = startForm?.querySelector('button[type="submit"]');
+    const replyButton = replyForm?.querySelector('button[type="submit"]');
     const isAuthenticated = root.dataset.authenticated === "true";
     const chatCopy = {
         handledBy: root.dataset.chatHandledBy || "This chat is being handled by :name",
         typing: root.dataset.chatTyping || "Admin is typing",
         start: root.dataset.chatStart || "Start consultation",
         starting: root.dataset.chatStarting || "Starting...",
+        send: root.dataset.chatSend || "Send",
+        sending: root.dataset.chatSending || "Sending...",
     };
     let token = null;
     let pollingInterval;
 
-    const render = (items, handlerName = null, isTyping = false, notice = null) => {
+    const render = (items, handlerName = null, isTyping = false, notice = null, canReply = false) => {
+        replyForm?.classList.toggle("hidden", !canReply);
         messages.innerHTML = items
             .map(
                 (item) =>
@@ -90,7 +113,7 @@ function initConsultationChat() {
         const response = await fetch(`/consultation-chat/${token}/messages`);
         if (response.ok) {
             const data = await response.json();
-            render(data.messages, data.handler_name, data.is_typing, data.notice);
+            render(data.messages, data.handler_name, data.is_typing, data.notice, data.can_reply);
         }
     };
     const startPolling = () => {
@@ -131,15 +154,14 @@ function initConsultationChat() {
         if (!token) {
             window.localStorage.removeItem("nexora_chat_token");
             startForm.classList.remove("hidden");
-            replyForm.classList.add("hidden");
+            replyForm?.classList.add("hidden");
             messages.innerHTML = "";
             return;
         }
 
         window.localStorage.setItem("nexora_chat_token", token);
         startForm.classList.add("hidden");
-        replyForm.classList.remove("hidden");
-        render(data.messages, data.handler_name, data.is_typing, data.notice);
+        render(data.messages, data.handler_name, data.is_typing, data.notice, data.can_reply);
         startPolling();
     };
     startForm.addEventListener("submit", async (event) => {
@@ -174,24 +196,38 @@ function initConsultationChat() {
         token = data.token;
         window.localStorage.setItem("nexora_chat_token", token);
         startForm.classList.add("hidden");
-        replyForm.classList.remove("hidden");
-        render(data.messages, data.handler_name, data.is_typing, data.notice);
+        render(data.messages, data.handler_name, data.is_typing, data.notice, data.can_reply);
         startPolling();
     });
-    replyForm.addEventListener("submit", async (event) => {
+    replyForm?.addEventListener("submit", async (event) => {
         event.preventDefault();
-        const response = await fetch(`/consultation-chat/${token}/messages`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN":
-                    document.querySelector('meta[name="csrf-token"]')
-                        ?.content || "",
-            },
-            body: JSON.stringify({ body: new FormData(replyForm).get("body") }),
-        });
-        if (response.ok) {
-            replyForm.reset();
+        if (!token || replyButton?.disabled) return;
+
+        if (replyButton) {
+            replyButton.disabled = true;
+            replyButton.textContent = chatCopy.sending;
+        }
+
+        try {
+            const response = await fetch(`/consultation-chat/${token}/messages`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN":
+                        document.querySelector('meta[name="csrf-token"]')
+                            ?.content || "",
+                },
+                body: JSON.stringify({ body: new FormData(replyForm).get("body") }),
+            });
+
+            if (response.ok) {
+                replyForm.reset();
+            }
+        } finally {
+            if (replyButton) {
+                replyButton.disabled = false;
+                replyButton.textContent = chatCopy.send;
+            }
             load();
         }
     });

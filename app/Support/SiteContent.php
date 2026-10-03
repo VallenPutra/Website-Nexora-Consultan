@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Models\Insight;
 use App\Models\Service;
+use App\Models\TeamGroupPhoto;
 use App\Models\TeamMember;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
@@ -90,20 +91,35 @@ class SiteContent
         }
 
         $members = TeamMember::active()->orderBy('sort_order')->orderBy('name')->get();
-        $translatedMembers = collect($content)->keyBy('name');
 
-        return $members->map(function (TeamMember $member) use ($translatedMembers): array {
-            if (app()->getLocale() !== 'en' && $translatedMembers->has($member->name)) {
-                return $translatedMembers->get($member->name);
-            }
-
+        return $members->map(function (TeamMember $member): array {
             return [
                 'name' => $member->name,
                 'role' => $member->role,
                 'expertise' => $member->expertise,
                 'bio' => $member->bio,
+                'photo' => $member->photo_path ? Storage::disk('public')->url($member->photo_path) : null,
             ];
         })->all();
+    }
+
+    public static function teamGroupPhotos(): array
+    {
+        if (! Schema::hasTable('team_group_photos')) {
+            return [];
+        }
+
+        return TeamGroupPhoto::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get()
+            ->map(fn (TeamGroupPhoto $photo): array => [
+                'title' => $photo->title,
+                'description' => $photo->description,
+                'image' => Storage::disk('public')->url($photo->image_path),
+            ])
+            ->all();
     }
 
     public static function careers(): array

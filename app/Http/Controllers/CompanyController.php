@@ -21,6 +21,7 @@ class CompanyController extends Controller
     {
         return view('pages.company.team', [
             'team' => SiteContent::team(),
+            'teamGroupPhotos' => SiteContent::teamGroupPhotos(),
         ]);
     }
 

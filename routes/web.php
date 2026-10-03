@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\RevenueController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\TeamGroupPhotoController;
 use App\Http\Controllers\Admin\TeamMemberController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -105,6 +106,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('projects', ProjectController::class);
     Route::resource('services', AdminServiceController::class);
     Route::resource('team', TeamMemberController::class)->parameters(['team' => 'teamMember']);
+    Route::resource('team-photos', TeamGroupPhotoController::class)
+        ->except(['show'])
+        ->parameters(['team-photos' => 'teamGroupPhoto']);
     Route::resource('insights', AdminInsightController::class);
     Route::resource('portfolio', AdminPortfolioItemController::class)->parameters(['portfolio' => 'portfolioItem']);
     Route::get('/media', [MediaLibraryController::class, 'index'])->name('media.index');
