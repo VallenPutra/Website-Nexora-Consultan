@@ -75,6 +75,8 @@ function initConsultationChat() {
     let pollingInterval;
 
     const render = (items, handlerName = null, isTyping = false, notice = null, canReply = false) => {
+        const isNearBottom =
+            messages.scrollHeight - messages.scrollTop - messages.clientHeight < 24;
         replyForm?.classList.toggle("hidden", !canReply);
         messages.innerHTML = items
             .map(
@@ -106,7 +108,9 @@ function initConsultationChat() {
                     '</span><span class="flex gap-0.5"><span class="animate-bounce">.</span><span class="animate-bounce [animation-delay:150ms]">.</span><span class="animate-bounce [animation-delay:300ms]">.</span></span></div>',
             );
         }
-        messages.scrollTop = messages.scrollHeight;
+        if (isNearBottom) {
+            messages.scrollTop = messages.scrollHeight;
+        }
     };
     const load = async () => {
         if (!token) return;
